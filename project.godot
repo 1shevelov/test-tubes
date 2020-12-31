@@ -1,0 +1,51 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node",
+"class": "Game",
+"language": "GDScript",
+"path": "res://scripts/Game.gd"
+}, {
+"base": "GDScript",
+"class": "Level",
+"language": "GDScript",
+"path": "res://level.gd"
+}, {
+"base": "GDScript",
+"class": "Portion",
+"language": "GDScript",
+"path": "res://portion.gd"
+}, {
+"base": "GDScript",
+"class": "Tube",
+"language": "GDScript",
+"path": "res://scripts/tube.gd"
+} ]
+_global_script_class_icons={
+"Game": "",
+"Level": "",
+"Portion": "",
+"Tube": ""
+}
+
+[application]
+
+config/name="Test-tubes"
+run/main_scene="res://scenes/Menu.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Globals="*res://scripts/Globals.gd"
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/TubeButton.gd" type="Script" id=1]
+
+[node name="TubeButton" type="Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -974.0
+margin_bottom = -550.0
+rect_min_size = Vector2( 50, 50 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="toggled" from="." to="." method="_on_TubeButton_toggled"]
