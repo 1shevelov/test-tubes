@@ -67,23 +67,22 @@ func get_content() -> Array:
 	return _content
 	
 	
-# portion = {color: int, size: int}
-func add_a_portion(p: Portion) -> Portion:
-	if p.get_portion().size == 0:
+# portion = [1, 1, 1]
+func add_a_portion(por: Array) -> Array:
+	if por.size() == 0:
 		print_debug("Empty portion")
-		#Globals.send_message("This portion is empty")
-		return p
-	if p.get_portion().size < 0 || p.get_portion().size > get_volume():
-		print_debug("Portion size is invalid or bigger than tube's size: ", \
-				p.get_portion().size)
-		return p
-	if get_top_color() != 0 && get_top_color() != p.get_portion().color:
+		Globals.send_message("This portion is empty")
+		return por
+	if por.size() > Globals.MAX_TUBE_VOLUME:
+		print_debug("Portion size is bigger than tube's size: ", por.size())
+		return por
+	if get_top_color() != 0 && get_top_color() != por[0]:
 		print_debug("Source portion color doesn't match target's top color")
 		Globals.send_message("Portion color doesn't match tube's top color")
-		return p
-	if p.get_portion().size > get_empty_volume():
+		return por
+	if por.size() > get_empty_volume():
 		print_debug("There is not enough empty volume to add such size")
-		return divide_a_portion(p)
+		return divide_a_portion(por)
 		
 	var empty_space: int = 0
 	for i in get_volume():
@@ -91,57 +90,54 @@ func add_a_portion(p: Portion) -> Portion:
 			empty_space += 1
 		else:
 			break
-	#var before: Array = get_content()
-	var start_fill_index: int = empty_space - p.get_portion().size
-	for i in range(start_fill_index, start_fill_index + p.get_portion().size):
-		_content[i] = p.get_portion().color
-	var zero_p := Portion.new()
-	return zero_p
+	var start_fill_index: int = empty_space - por.size()
+	for i in range(start_fill_index, start_fill_index + por.size()):
+		_content[i] = por[0]
+	return []
 
 
 # add what's fit and returns what's not 
-func divide_a_portion(p: Portion) -> Portion:
-	var new_p := Portion.new()
-	if !new_p.set_portion({"color": p.get_portion().color, "size": get_empty_volume()}):
-		print_debug("Error while making smaller portion")
-		return new_p
-	if !add_a_portion(new_p).is_empty():
-		print_debug("Error while adding smaller portion")
-		return new_p
-	if !p.set_portion({"color": p.get_portion().color, "size": p.get_portion().size - get_empty_volume()}):
-		print_debug("Error while making return portion")
-		return new_p
-	return p
+func divide_a_portion(por: Array) -> Array:
+	if por.empty():
+		print_debug("Empty portion, can't divide")
+		return []
+	var fitted_part: Array = por.duplicate()
+	fitted_part.resize(get_empty_volume())
+	var fitted_size: int = fitted_part.size()
+	fitted_part = add_a_portion(fitted_part)
+	if !fitted_part.empty():
+		print_debug("Error while adding smaller portion, returning full portion")
+		return por
+	por.resize(por.size() - fitted_size)
+	return por
 	
 
-func drain_a_portion() -> Portion: # {color: int, size: int}
-	var p := Portion.new()
+func drain_a_portion() -> Array:
+	var por: Array = []
 	if is_empty():
-		return p
-	var p_color: int = get_top_color()
-	var p_size: int = 0
+		return por
+	#var por_color: int = get_top_color()
 	var before: Array = get_content()
 	for each in before:
 		if each == 0:
 			continue
-		if each == p_color:
-			p_size += 1
+		if each != 0 && por.empty():
+			por.append(each)
+		elif each == por[0]:
+			por.append(each)
 		else:
 			break
-	if p.set_portion({"color": p_color, "size": p_size}):
-		for i in before.size():
-			if before[i] == 0:
-				continue
-			if before[i] == p_color:
-				before[i] = 0
-			else:
-				break
-		if !set_content(before):
-			print_debug("Error while draining")
-		return p
-	else:
-		print_debug("Error making a portion")
-		return null
+	for i in before.size():
+		if before[i] == 0:
+			continue
+		if before[i] == por[0]:
+			before[i] = 0
+		else:
+			break
+	if !set_content(before):
+		print_debug("Error while draining")
+		return []
+	return por
 	
 
 func get_empty_volume() -> int:
@@ -168,11 +164,11 @@ func get_top_color() -> int:
 
 
 # if adding was refused or partially returned
-func restore_portion(p: Portion) -> void:
-	if p.is_empty():
+func restore_portion(por: Array) -> void:
+	if por.empty():
 		return
-	if p.get_portion().size < 0 || p.get_portion().size > get_empty_volume():
-		print_debug("Portion size is invalid", p.get_portion().size)
+	if por.size() > get_empty_volume():
+		print_debug("Portion size is invalid", por.size())
 		return
 		
 	var empty_space: int = 0
@@ -182,8 +178,8 @@ func restore_portion(p: Portion) -> void:
 		else:
 			break
 
-	var start_fill_index: int = empty_space - p.get_portion().size
-	for i in range(start_fill_index, start_fill_index + p.get_portion().size):
-		_content[i] = p.get_portion().color
+	var start_fill_index: int = empty_space - por.size()
+	for i in range(start_fill_index, start_fill_index + por.size()):
+		_content[i] = por[0]
 
 

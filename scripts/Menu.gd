@@ -58,11 +58,11 @@ func set_level2() -> void:
 		[0, 4, 5, 1, 5],
 		[0, 0, 0, 0]
 	]):
-		if !l.add_rating({"stars": 3, "moves": 0, "vol": 0}):
+		if !l.add_rating({"stars": 3, "moves": 1, "vol": 1}):
 			print_debug("Invalid rating")
 		if !l.add_rating({"stars": 2, "moves": 15, "vol": 21}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 0, "vol": 0}):
+		if !l.add_rating({"stars": 1, "moves": 1, "vol": 1}):
 			print_debug("Invalid rating")
 		Globals.set_level(l)
 	else:

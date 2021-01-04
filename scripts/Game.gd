@@ -43,12 +43,12 @@ func pour(source: int, target: int) -> bool:
 	print_debug(" -- %s -> %s --" % [source, target])
 	print_debug("Source: ", l.get_tube(source).get_content())
 	print_debug("Target before: ", l.get_tube(target).get_content())
-	var pouring: Portion = l.get_tube(source).drain_a_portion()
-	var return_pouring: Portion = l.get_tube(target).add_a_portion(pouring)
-	if return_pouring.is_empty() || return_pouring.get_portion().size \
-			< pouring.get_portion().size:
+	var pouring: Array = l.get_tube(source).drain_a_portion()
+	var return_pouring: Array = pouring.duplicate()
+	return_pouring = l.get_tube(target).add_a_portion(return_pouring)
+	if (!pouring.empty() && return_pouring.empty()) || return_pouring.size() < pouring.size():
 		add_a_pour()
-		add_a_pour_volume(pouring.get_portion().size - return_pouring.get_portion().size)
+		add_a_pour_volume(pouring.size() - return_pouring.size())
 		is_success = true
 	l.get_tube(source).restore_portion(return_pouring)
 	print_debug("Source after: ", l.get_tube(source).get_content())

@@ -17,12 +17,7 @@ _global_script_classes=[ {
 "base": "GDScript",
 "class": "Level",
 "language": "GDScript",
-"path": "res://level.gd"
-}, {
-"base": "GDScript",
-"class": "Portion",
-"language": "GDScript",
-"path": "res://portion.gd"
+"path": "res://scripts/level.gd"
 }, {
 "base": "GDScript",
 "class": "Tube",
@@ -32,7 +27,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Game": "",
 "Level": "",
-"Portion": "",
 "Tube": ""
 }
 
