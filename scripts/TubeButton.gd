@@ -22,5 +22,9 @@ func _on_TubeButton_toggled(button_pressed):
 	else:
 		_set_position(get_position() + Vector2(0, 15))
 		_set_size(Vector2(get_size().x, get_size().y / 1.5))
+	#emit_signal("but_pressed", num)
+
+
+func _on_TubeButton_pressed():
 	emit_signal("but_pressed", num)
 
