@@ -14,6 +14,8 @@ var _performance_ratings: Array = [] # of ratings
 
 var completion_table: Array = []
 
+var description: String = ""
+
 
 # new_rating = {"stars": 0, "moves": 0, "vol": 0}
 func add_rating(new_rating: Dictionary) -> bool:

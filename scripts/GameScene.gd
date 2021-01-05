@@ -6,9 +6,9 @@ var game : Game
 const TUBE_SCENE := preload("res://scenes/TubeScene.tscn")
 var tubes: Array = [] # of TUBE_SCENE
 
-var BORDER := 0.2 # in %
+var BORDER := 0.1 # in %
 
-const TUBE_SIZE := Vector2(70, 250)
+const TUBE_SIZE := Vector2(50, 250)
 
 const BUTTON:= preload("res://scenes/TubeButton.tscn")
 var tube_buttons: Array = []
@@ -53,7 +53,7 @@ func show_tubes() -> void:
 		tubes[i].init(Globals.get_level().get_tube(i).get_content())
 		add_child(tubes[i])
 		tubes[i].update_tube(Globals.get_level().get_tube(i).get_content())
-		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 1.6 + TUBE_SIZE.y)
+		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 1.8 + TUBE_SIZE.y)
 		tube_buttons[i] = add_button(i, button_center_pos)
 	
 	message._set_global_position(Vector2(250, ROOT_SIZE.y * BORDER * 0.4))

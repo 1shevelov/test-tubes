@@ -15,19 +15,64 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-size_flags_horizontal = 2
-size_flags_vertical = 2
+margin_left = 2.2627
+margin_top = 3.51273
+margin_right = 2.2627
+margin_bottom = 3.5127
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="CenterContainer"]
-margin_left = 462.0
-margin_top = 280.0
-margin_right = 562.0
-margin_bottom = 320.0
-rect_min_size = Vector2( 100, 40 )
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 387.0
+margin_top = 246.0
+margin_right = 637.0
+margin_bottom = 353.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_constants/separation = 25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MainVBox"]
+margin_right = 250.0
+margin_bottom = 57.0
+rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 5
-size_flags_vertical = 5
+size_flags_vertical = 4
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/line_separation = 5
+bbcode_enabled = true
+bbcode_text = "[center][color=yellow][b]TEST TUBES[/b][/color]
+a prototype of
+[b]Water Sort Puzzle[/b][/center]"
+text = "TEST TUBES
+a prototype of
+Water Sort Puzzle"
+fit_content_height = true
+
+[node name="Container" type="Container" parent="CenterContainer/MainVBox"]
+margin_top = 82.0
+margin_right = 250.0
+margin_bottom = 82.0
+
+[node name="LevelSelection" type="VBoxContainer" parent="CenterContainer/MainVBox"]
+margin_top = 107.0
+margin_right = 250.0
+margin_bottom = 107.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_vertical = 3
+custom_constants/separation = 5
+
+[node name="Button" type="Button" parent="CenterContainer/MainVBox"]
+visible = false
+margin_left = 75.0
+margin_top = 132.0
+margin_right = 175.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 100, 40 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
 text = "START"
-[connection signal="pressed" from="CenterContainer/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="CenterContainer/MainVBox/Button" to="." method="_on_Button_pressed"]

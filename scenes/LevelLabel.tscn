@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/level_label.gd" type="Script" id=1]
+
+[node name="LevelLabel" type="MarginContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 200, 30 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_bottom = 5
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RTLabel" type="RichTextLabel" parent="."]
+margin_right = 200.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 0, 10 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="gui_input" from="RTLabel" to="." method="_on_RTLabel_gui_input"]
+[connection signal="mouse_entered" from="RTLabel" to="." method="_on_RTLabel_mouse_entered"]
+[connection signal="mouse_exited" from="RTLabel" to="." method="_on_RTLabel_mouse_exited"]
