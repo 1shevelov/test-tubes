@@ -53,12 +53,12 @@ func show_tubes() -> void:
 		tubes[i].init(Globals.get_level().get_tube(i).get_content())
 		add_child(tubes[i])
 		tubes[i].update_tube(Globals.get_level().get_tube(i).get_content())
-		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 1.8 + TUBE_SIZE.y)
+		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 2 + TUBE_SIZE.y)
 		tube_buttons[i] = add_button(i, button_center_pos)
 	
 	message._set_global_position(Vector2(250, ROOT_SIZE.y * BORDER * 0.4))
 	instruction._set_global_position(Vector2(ROOT_SIZE.x / 2 \
-			- 170, ROOT_SIZE.y * BORDER * 2 + TUBE_SIZE.y))
+			- 170, ROOT_SIZE.y * BORDER * 3 + TUBE_SIZE.y))
 	$Counters._set_global_position(Vector2(ROOT_SIZE.x / 2 - 70, 25))
 
 

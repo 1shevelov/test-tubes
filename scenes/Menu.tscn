@@ -24,9 +24,9 @@ __meta__ = {
 }
 
 [node name="MainVBox" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 387.0
+margin_left = 362.0
 margin_top = 246.0
-margin_right = 637.0
+margin_right = 662.0
 margin_bottom = 353.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -36,7 +36,7 @@ __meta__ = {
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MainVBox"]
-margin_right = 250.0
+margin_right = 300.0
 margin_bottom = 57.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 5
@@ -54,14 +54,14 @@ fit_content_height = true
 
 [node name="Container" type="Container" parent="CenterContainer/MainVBox"]
 margin_top = 82.0
-margin_right = 250.0
+margin_right = 300.0
 margin_bottom = 82.0
 
 [node name="LevelSelection" type="VBoxContainer" parent="CenterContainer/MainVBox"]
 margin_top = 107.0
-margin_right = 250.0
+margin_right = 300.0
 margin_bottom = 107.0
-rect_min_size = Vector2( 250, 0 )
+rect_min_size = Vector2( 300, 0 )
 size_flags_vertical = 3
 custom_constants/separation = 5
 

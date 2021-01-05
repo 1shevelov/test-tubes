@@ -9,6 +9,8 @@ const WIN_CONDITIONS_HINTS := [
 	"Gather %s color in any one container to win"
 ]
 var win_condition: int = 0
+# only for win_condition = 1
+var win_color: int = 0
 
 var _performance_ratings: Array = [] # of ratings
 
@@ -66,7 +68,7 @@ func set_tubes(input_tubes: Array) -> bool:
 				print_debug("Error setting tube content: ", t)
 				return false
 			_tubes.append(tube)
-		find_win_condition()
+		build_completion_table()
 		return true
 	
 	
@@ -96,8 +98,8 @@ func check_input(tubes_2_check: Array) -> bool:
 	return true
 
 
-# for GATHER_ALL
-func find_win_condition() -> void:
+# number of portions for every color
+func build_completion_table() -> void:
 	completion_table.resize(Globals.MAX_COLORS)
 	for i in completion_table.size():
 		completion_table[i] = 0
@@ -110,20 +112,39 @@ func find_win_condition() -> void:
 
 # for GATHER_ALL
 func check_win_condition() -> bool:
-	var full_color: int = 0
-	for each_tube in _tubes:
-		var summ: int = 0
-		var num: int = 0
-		for each_part in each_tube.get_content():
-			if each_part != 0:
-				summ += each_part
-				num += 1
-		# warning-ignore:integer_division
-		if num == 0 || (summ / num == each_tube.get_top_color() \
-				&& completion_table[each_tube.get_top_color() - 1] == num):
-			full_color += 1
-	if full_color == _tubes.size():
-		return true
-	return false
-
+	if win_condition == 0:
+		var full_color: int = 0
+		for each_tube in _tubes:
+			var summ: int = 0
+			var num: int = 0
+			for each_part in each_tube.get_content():
+				if each_part != 0:
+					summ += each_part
+					num += 1
+			# warning-ignore:integer_division
+			if num == 0 || (summ / num == each_tube.get_top_color() \
+					&& completion_table[each_tube.get_top_color() - 1] == num):
+				full_color += 1
+		if full_color == _tubes.size():
+			return true
+		return false
+	elif win_condition == 1:
+		var wrong_tube: bool = false
+		for each_tube in _tubes:
+			if !wrong_tube && each_tube.get_top_color() == win_color:
+				var num: int = 0
+				for each_part in each_tube.get_content():
+					if each_part == 0:
+						continue
+					if each_part == win_color:
+						num += 1
+					if each_part != win_color:
+						wrong_tube = true
+						break
+				if !wrong_tube && num == completion_table[win_color - 1]:
+					return true
+		return false
+	else:
+		print_debug("You shouldn't be there")
+		return false
 

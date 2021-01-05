@@ -5,7 +5,7 @@
 [node name="LevelLabel" type="MarginContainer"]
 margin_right = 40.0
 margin_bottom = 40.0
-rect_min_size = Vector2( 200, 30 )
+rect_min_size = Vector2( 250, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_bottom = 5
@@ -15,11 +15,12 @@ __meta__ = {
 }
 
 [node name="RTLabel" type="RichTextLabel" parent="."]
-margin_right = 200.0
+margin_right = 250.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 0, 10 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/line_separation = 3
 fit_content_height = true
 __meta__ = {
 "_edit_use_anchors_": false

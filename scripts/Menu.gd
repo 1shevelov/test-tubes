@@ -65,25 +65,49 @@ func _on_label_clicked(label_num: int) -> void:
 	run_game()
 
 
+#func set_level1() -> void:
+#	var l := Level.new()
+#	if l.set_tubes([
+#		[0, 1, 2, 5],
+#		[0, 5, 2, 1],
+#		[0, 0, 0],
+#		[5, 2, 5, 1]
+#	]):
+#		l.description = "[center][color=lime]EASY[/color]\n4 tubes, 3 colors - 8 moves[/center]"
+#		if !l.add_rating({"stars": 3, "moves": 8, "vol": 11}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 2, "moves": 9, "vol": 13}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 1, "moves": 9, "vol": 15}):
+#			print_debug("Invalid rating")
+#		levels.append(l)
+#	else:
+#		print_debug("Error while activating level 1")
+
+
 func set_level1() -> void:
 	var l := Level.new()
 	if l.set_tubes([
-		[0, 1, 2, 5],
-		[0, 5, 2, 1],
-		[0, 0, 0],
-		[5, 2, 5, 1]
+		[5],
+		[4, 3],
+		[0, 5],
+		[3, 2, 4],
+		[5, 3, 2, 4],
+		[0, 4, 5, 1, 5],
+		[0, 0, 0, 0]
 	]):
-		l.description = "[center][color=lime]EASY[/color]\n4 tubes, 3 colors - 8 moves[/center]"
-		if !l.add_rating({"stars": 3, "moves": 8, "vol": 11}):
+		l.description = "[center][color=lime]EASY[/color] Varying tubes and liquids' volumes\n7 tubes, 5 colors - 15 moves[/center]"
+		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 9, "vol": 13}):
+		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 9, "vol": 15}):
+		if !l.add_rating({"stars": 1, "moves": 15, "vol": 21}):
 			print_debug("Invalid rating")
 		levels.append(l)
+		#Globals.set_level(l)
 	else:
 		print_debug("Error while activating level 1")
-
+		
 
 func set_level2() -> void:
 	var l := Level.new()
@@ -96,18 +120,20 @@ func set_level2() -> void:
 		[0, 4, 5, 1, 5],
 		[0, 0, 0, 0]
 	]):
-		l.description = "[center][color=lime]EASY[/color]\n7 tubes, 5 colors - 15 moves[/center]"
-		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
+		l.description = "[center][color=lime]EASY[/color] Same as #1 but gather only [color=lime]GREEN[/color]\n7 moves[/center]"
+		l.win_condition = l.WIN_CONDITIONS.GATHER_ONE
+		l.win_color = 5
+		if !l.add_rating({"stars": 3, "moves": 7, "vol": 10}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
+		if !l.add_rating({"stars": 2, "moves": 8, "vol": 11}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 15, "vol": 21}):
+		if !l.add_rating({"stars": 1, "moves": 8, "vol": 12}):
 			print_debug("Invalid rating")
 		levels.append(l)
 		#Globals.set_level(l)
 	else:
 		print_debug("Error while activating level 2")
-		
+
 
 func set_level3() -> void:
 	var l := Level.new()
