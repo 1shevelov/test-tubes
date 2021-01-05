@@ -42,4 +42,31 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 popup_exclusive = true
 dialog_text = "Return to menu"
+
+[node name="ButtonMenu" type="Button" parent="."]
+margin_left = 30.0
+margin_top = 20.0
+margin_right = 87.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 70, 30 )
+hint_tooltip = "Back to menu"
+text = "MENU"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonRestart" type="Button" parent="."]
+visible = false
+margin_left = 30.0
+margin_top = 60.0
+margin_right = 100.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 70, 30 )
+hint_tooltip = "Restart level"
+text = "RESTART"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="confirmed" from="FinishPopup" to="." method="_on_FinishPopup_confirmed"]
+[connection signal="pressed" from="ButtonMenu" to="." method="_on_ButtonMenu_pressed"]
+[connection signal="pressed" from="ButtonRestart" to="." method="_on_ButtonRestart_pressed"]

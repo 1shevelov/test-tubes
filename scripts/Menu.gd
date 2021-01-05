@@ -16,13 +16,26 @@ func close_game() -> void:
 	if is_instance_valid(game_scene):
 		game_scene.queue_free()
 	set_visible(true)
+	init_levels()
+	
+	
+# doesn't work
+func restart_game() -> void:
+	close_game()
+	run_game()
+	
 
-
-func make_levels_list() -> void:
+func init_levels() -> void:
+	if !levels.empty():
+		levels.clear()
 	set_level1()
 	set_level2()
 	set_level3()
 	set_level4()
+
+
+func make_levels_list() -> void:
+	init_levels()
 	for i in levels.size():
 		var l := LEVEL_LABEL.instance()
 		l.label_text = levels[i].description
@@ -60,7 +73,7 @@ func set_level1() -> void:
 		[0, 0, 0],
 		[5, 2, 5, 1]
 	]):
-		l.description = "[center][color=lime]EASY[/color]\n4 tubes, 3 colors - 8-9 moves[/center]"
+		l.description = "[center][color=lime]EASY[/color]\n4 tubes, 3 colors - 8 moves[/center]"
 		if !l.add_rating({"stars": 3, "moves": 8, "vol": 11}):
 			print_debug("Invalid rating")
 		if !l.add_rating({"stars": 2, "moves": 9, "vol": 13}):
@@ -131,18 +144,17 @@ func set_level4() -> void:
 		[3, 6, 5, 3],
 		[3, 8, 2, 2],
 		[6, 4, 7, 7],
-		
 		[8, 7, 2, 6],
 		[7, 2, 4, 4],
 		[4, 3, 5, 5],
 		[0, 0, 0, 6]
 	]):
-		l.description = "[center][color=red]HARD[/color] Hoops\n8 tubes, 7 colors - 36 moves[/center]"
-		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
+		l.description = "[center][color=yellow]MEDIUM[/color] Hoops: one way to solve\n8 tubes, 7 colors - 16 moves[/center]"
+		if !l.add_rating({"stars": 3, "moves": 16, "vol": 20}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
+		if !l.add_rating({"stars": 2, "moves": 16, "vol": 21}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 36, "vol": 50}):
+		if !l.add_rating({"stars": 1, "moves": 17, "vol": 22}):
 			print_debug("Invalid rating")
 		levels.append(l)
 		#Globals.set_level(l)

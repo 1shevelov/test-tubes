@@ -136,3 +136,12 @@ earn you %s stars""" % [game.get_pours(), game.get_pours_volume(), \
 		Globals.get_level().get_performance(game.get_pours(), game.get_pours_volume())]
 
 
+func _on_ButtonMenu_pressed():
+	menu.close_game()
+
+
+func _on_ButtonRestart_pressed():
+	menu.restart_game()
+
+
+
