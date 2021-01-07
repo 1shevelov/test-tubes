@@ -29,8 +29,8 @@ func _ready():
 		print_debug("Level wasn't initialized")
 		menu.close_game()
 	game = Game.new()
-	instruction.set_text("""Click the button under the tube to take a portion from
-and a button under the other to pour the portion to.""")
+	instruction.set_text("""Click the button above the tube to take a portion from
+and a button above the other to pour the portion to.""")
 	Globals.set_message_receiver(self)
 	tubes_number = Globals.get_level().get_all_tubes_content().size()
 	tubes.resize(tubes_number)
@@ -46,19 +46,19 @@ func show_tubes() -> void:
 		var screen_part : float = (ROOT_SIZE.x - ROOT_SIZE.x * BORDER * 2) / tubes_number
 		var tube_center_x : float = ROOT_SIZE.x * BORDER + screen_part * (0.5 + i)
 		#print_debug("Root.x = %s, center = %s" % [ROOT_SIZE.x, tube_center_x])
-		var tube_position := Vector2(tube_center_x - TUBE_SIZE.x / 2, ROOT_SIZE.y * BORDER)
+		var tube_position := Vector2(tube_center_x - TUBE_SIZE.x / 2, ROOT_SIZE.y * BORDER * 2.5)
 		var a_tube := TUBE_SCENE.instance()
 		a_tube.set_coords(tube_position, TUBE_SIZE)
 		tubes[i] = a_tube
 		tubes[i].init(Globals.get_level().get_tube(i).get_content())
 		add_child(tubes[i])
 		tubes[i].update_tube(Globals.get_level().get_tube(i).get_content())
-		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 2 + TUBE_SIZE.y)
+		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 2.5)
 		tube_buttons[i] = add_button(i, button_center_pos)
 	
-	message._set_global_position(Vector2(250, ROOT_SIZE.y * BORDER * 0.4))
+	message._set_global_position(Vector2(200, ROOT_SIZE.y * BORDER * 0.7))
 	instruction._set_global_position(Vector2(ROOT_SIZE.x / 2 \
-			- 170, ROOT_SIZE.y * BORDER * 3 + TUBE_SIZE.y))
+			- 170, ROOT_SIZE.y * BORDER * 4 + TUBE_SIZE.y))
 	$Counters._set_global_position(Vector2(ROOT_SIZE.x / 2 - 70, 25))
 
 

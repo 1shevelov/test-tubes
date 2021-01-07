@@ -123,7 +123,7 @@ func set_level2() -> void:
 		l.description = "[center][color=lime]EASY[/color] Same as #1 but gather only [color=lime]GREEN[/color]\n7 moves[/center]"
 		l.win_condition = l.WIN_CONDITIONS.GATHER_ONE
 		l.win_color = 5
-		if !l.add_rating({"stars": 3, "moves": 7, "vol": 10}):
+		if !l.add_rating({"stars": 3, "moves": 7, "vol": 9}):
 			print_debug("Invalid rating")
 		if !l.add_rating({"stars": 2, "moves": 8, "vol": 11}):
 			print_debug("Invalid rating")

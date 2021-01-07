@@ -153,6 +153,35 @@ func get_empty_volume() -> int:
 	return -1
 
 
+# for draining through a faucet in the bottom
+func drain_a_bottom_portion() -> Array:
+	var por: Array = []
+	if is_empty():
+		return por
+	var before: Array = get_content()
+	for each in range(before.size() - 1, -1, -1):
+		if each == 0:
+			print_debug("It can't be true!")
+		if each != 0 && por.empty():
+			por.append(each)
+		elif each == por[0]:
+			por.append(each)
+		else:
+			break
+	var after: Array = []
+	after.resize(before.size())
+	for i in range(after.size() - 1, -1, -1):
+		if i - por.size() >= 0:
+			after[i] = before[i - por.size()]
+			continue
+		else:
+			after[i] = 0
+	if !set_content(after):
+		print_debug("Error while draining from bottom")
+		return []
+	return por
+	
+
 func get_top_color() -> int:
 	if is_empty():
 		return 0
@@ -181,5 +210,29 @@ func restore_portion(por: Array) -> void:
 	var start_fill_index: int = empty_space - por.size()
 	for i in range(start_fill_index, start_fill_index + por.size()):
 		_content[i] = por[0]
+
+
+func restore_bottom_portion(por: Array) -> void:
+	if por.empty():
+		return
+	if por.size() > get_empty_volume():
+		print_debug("Portion size is invalid", por.size())
+		return
+		
+	var before: Array = get_content()
+	var after: Array = []
+	after.resize(before.size())
+	
+	for i in range(after.size() - 1, -1, -1):
+		var j: int = por.size() - 1
+		if j >= 0:
+			after[i] = por[j]
+			j -= 1
+		else:
+			after[i] = before[i + por.size()]
+			
+	if !set_content(after):
+		print_debug("Error while draining from bottom")
+
 
 
