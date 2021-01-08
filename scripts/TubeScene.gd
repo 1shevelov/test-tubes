@@ -21,11 +21,10 @@ func set_coords(pos: Vector2, SIZE: Vector2) -> void:
 func init(tube: Array) -> void:
 	if check(tube):
 		tube_content.resize(tube.size())
-		var size_diff: int = Globals.MAX_TUBE_VOLUME - tube.size()
+		#var size_diff: int = Globals.MAX_TUBE_VOLUME - tube.size()
 		for i in tube_content.size():
 			var portion := PORTION_SCENE.instance()
-			var portion_pos_y : float = tube_position.y + TUBE_SIZE.y \
-					* BORDER + portion_size.y * (i + size_diff)
+			var portion_pos_y : float = tube_position.y + TUBE_SIZE.y * BORDER + portion_size.y * i# + size_diff)
 			portion.set_coords(Vector2(tube_position.x + TUBE_SIZE.x * BORDER, \
 					portion_pos_y), portion_size)
 			tube_content[i] = portion
@@ -58,6 +57,6 @@ func update_tube(tube: Array) -> void:
 
 func _draw():
 	var curr_height: float = TUBE_SIZE.y * (float(tube_content.size()) / Globals.MAX_TUBE_VOLUME + 2 * BORDER)
-	var curr_pos_y: float = tube_position.y + TUBE_SIZE.y - curr_height
+	var curr_pos_y: float = tube_position.y# + TUBE_SIZE.y - curr_height
 	draw_rect(Rect2(Vector2(tube_position.x, curr_pos_y),
 			Vector2(TUBE_SIZE.x, curr_height)), Color.white, false)

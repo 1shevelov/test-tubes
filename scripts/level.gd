@@ -2,6 +2,7 @@ extends GDScript
 class_name Level
 
 var _tubes: Array = [] setget set_tubes
+var _tubes_with_drain: Array = [] setget set_drains
 
 enum WIN_CONDITIONS {GATHER_ALL, GATHER_ONE}
 const WIN_CONDITIONS_HINTS := [
@@ -17,6 +18,22 @@ var _performance_ratings: Array = [] # of ratings
 var completion_table: Array = []
 
 var description: String = ""
+
+
+func set_drains(drains: Array) -> bool:
+	if _tubes.empty():
+		print_debug("Tubes array wasn't set, can't set drains")
+		return false
+	if drains.size() != _tubes.size():
+		print_debug("Drains array doesn't equal to tubes array")
+		return false
+	for i in drains.size():
+		if typeof(drains[i]) != TYPE_BOOL:
+			print_debug("Invalid type of drain array member: ", typeof(drains[i]))
+			return false
+		if drains[i]:
+			get_tube(i).has_drain = true
+	return true
 
 
 # new_rating = {"stars": 0, "moves": 0, "vol": 0}

@@ -46,7 +46,7 @@ func show_tubes() -> void:
 		var screen_part : float = (ROOT_SIZE.x - ROOT_SIZE.x * BORDER * 2) / tubes_number
 		var tube_center_x : float = ROOT_SIZE.x * BORDER + screen_part * (0.5 + i)
 		#print_debug("Root.x = %s, center = %s" % [ROOT_SIZE.x, tube_center_x])
-		var tube_position := Vector2(tube_center_x - TUBE_SIZE.x / 2, ROOT_SIZE.y * BORDER * 2.5)
+		var tube_position := Vector2(tube_center_x - TUBE_SIZE.x / 2, ROOT_SIZE.y * BORDER * 3)
 		var a_tube := TUBE_SCENE.instance()
 		a_tube.set_coords(tube_position, TUBE_SIZE)
 		tubes[i] = a_tube
