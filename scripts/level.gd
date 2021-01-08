@@ -86,6 +86,10 @@ func set_tubes(input_tubes: Array) -> bool:
 				return false
 			_tubes.append(tube)
 		build_completion_table()
+		var drain_tubes: Array = []
+		drain_tubes.resize(input_tubes.size())
+		for i in drain_tubes.size():
+			drain_tubes[i] = false
 		return true
 	
 	

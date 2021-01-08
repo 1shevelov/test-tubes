@@ -1,8 +1,11 @@
 extends Button
 
-signal but_pressed(num)
+signal but_pressed(num, is_bottom)
 
 var num: int = 0
+
+# if true button opens bottom faucet
+var is_bottom: bool = false
 
 
 func _ready():

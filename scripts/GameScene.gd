@@ -14,9 +14,12 @@ const BUTTON:= preload("res://scenes/TubeButton.tscn")
 var tube_buttons: Array = []
 onready var instruction: Label = $Instruction
 onready var message: Label = $Message
+var bottom_buttons: Array = [] # for bottom faucets
 
 # the tube with a source portion
 var source_tube: int = -1
+var source_bottom_faucet: bool = false
+
 var tubes_number: int = 0
 
 
@@ -54,7 +57,10 @@ func show_tubes() -> void:
 		add_child(tubes[i])
 		tubes[i].update_tube(Globals.get_level().get_tube(i).get_content())
 		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 2.5)
-		tube_buttons[i] = add_button(i, button_center_pos)
+		tube_buttons[i] = add_button(i, false, button_center_pos)
+		var bottom_button_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 4 + TUBE_SIZE.y)
+		if Globals.get_level().get_tube(i).has_drain:
+			bottom_buttons.append(add_button(i, true, bottom_button_pos))
 	
 	message._set_global_position(Vector2(200, ROOT_SIZE.y * BORDER * 0.7))
 	instruction._set_global_position(Vector2(ROOT_SIZE.x / 2 \
@@ -67,29 +73,40 @@ func update_tubes() -> void:
 		tubes[i].update_tube(Globals.get_level().get_tube(i).get_content())
 
 
-func add_button(num: int, center_pos: Vector2) -> Button:
+func add_button(num: int, is_bottom: bool, center_pos: Vector2) -> Button:
 	var button: Button = BUTTON.instance()
 	button.num = num
+	button.is_bottom = is_bottom
 	button.set_coords(center_pos)
 	add_child(button)
 	return button
 
 
-func _on_but_pressed(num: int) -> void:
+func _on_but_pressed(num: int, is_bottom: bool) -> void:
 	if source_tube == -1:
 		source_tube = num
+		source_bottom_faucet = is_bottom
 		message_clear()
 	elif source_tube == num:
 		source_tube = -1
+		source_bottom_faucet = false
+		reset_buttons()
 		message_clear()
+	elif source_tube != -1 && is_bottom:
+		source_tube = -1
+		source_bottom_faucet = false
+		reset_buttons()
+		print_debug("Bottom faucets can only drain liquids")
+		Globals.send_message("Bottom faucets can only drain liquids")
 	else:
-		if !game.pour(source_tube, num):
+		if !game.pour(source_tube, source_bottom_faucet, num):
 			print_debug("Can't pour from %s to %s" % [source_tube, num])
 			Globals.send_message("Can't pour from %s to %s" % [source_tube, num])
 		else:
 			update_tubes()
 			update_counters()
 		source_tube = -1
+		source_bottom_faucet = false
 		reset_buttons()
 		if Globals.get_level().check_win_condition():
 			print_debug("GAME IS WON!")
@@ -103,6 +120,8 @@ func _on_but_pressed(num: int) -> void:
 	
 func reset_buttons() -> void:
 	for each in tube_buttons:
+		each.set_pressed(false)
+	for each in bottom_buttons:
 		each.set_pressed(false)
 
 
@@ -131,9 +150,14 @@ func _on_FinishPopup_confirmed():
 
 
 func get_game_rating() -> String:
+	var rating: int = Globals.get_level().get_performance(game.get_pours(), game.get_pours_volume())
+	var stars: String = ""
+	if rating == 1:
+		stars = "a one star"
+	else:
+		stars = "%s stars" % rating
 	return """%s moves and %s liquid portions poured
-earn you %s stars""" % [game.get_pours(), game.get_pours_volume(), \
-		Globals.get_level().get_performance(game.get_pours(), game.get_pours_volume())]
+earn you %s.""" % [game.get_pours(), game.get_pours_volume(), stars]
 
 
 func _on_ButtonMenu_pressed():

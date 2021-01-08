@@ -32,6 +32,7 @@ func init_levels() -> void:
 	set_level2()
 	set_level3()
 	set_level4()
+	set_level5()
 
 
 func make_levels_list() -> void:
@@ -186,3 +187,24 @@ func set_level4() -> void:
 		#Globals.set_level(l)
 	else:
 		print_debug("Error while activating level 4")
+
+
+func set_level5() -> void:
+	var l := Level.new()
+	if l.set_tubes([
+		[0, 0, 1, 2, 5],
+		[0, 0, 5, 2, 1],
+		[0, 5, 1, 5, 2]
+	]):
+		if !l.set_drains([false, false, true]):
+			print_debug("Invalid drains array")
+		l.description = "[center][color=lime]EASY[/color] One tube has a bottom faucet\n3 tubes, 3 colors - 8 moves[/center]"
+		if !l.add_rating({"stars": 3, "moves": 8, "vol": 11}):
+			print_debug("Invalid rating")
+		if !l.add_rating({"stars": 2, "moves": 9, "vol": 13}):
+			print_debug("Invalid rating")
+		if !l.add_rating({"stars": 1, "moves": 9, "vol": 15}):
+			print_debug("Invalid rating")
+		levels.append(l)
+	else:
+		print_debug("Error while activating level 5")

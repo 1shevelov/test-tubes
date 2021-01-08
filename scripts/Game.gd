@@ -38,19 +38,26 @@ func get_pours_volume() -> int:
 	return _volume_counter
 
 
-func pour(source: int, target: int) -> bool:
+func pour(source: int, from_bottom: bool, target: int) -> bool:
 	var is_success: bool = false
 	print_debug(" -- %s -> %s --" % [source, target])
 	print_debug("Source: ", l.get_tube(source).get_content())
 	print_debug("Target before: ", l.get_tube(target).get_content())
-	var pouring: Array = l.get_tube(source).drain_a_portion()
+	var pouring: Array = []
+	if from_bottom:
+		pouring = l.get_tube(source).drain_a_bottom_portion()
+	else:
+		pouring = l.get_tube(source).drain_a_portion()
 	var return_pouring: Array = pouring.duplicate()
 	return_pouring = l.get_tube(target).add_a_portion(return_pouring)
 	if (!pouring.empty() && return_pouring.empty()) || return_pouring.size() < pouring.size():
 		add_a_pour()
 		add_a_pour_volume(pouring.size() - return_pouring.size())
 		is_success = true
-	l.get_tube(source).restore_portion(return_pouring)
+	if from_bottom:
+		l.get_tube(source).restore_bottom_portion(return_pouring)
+	else:
+		l.get_tube(source).restore_portion(return_pouring)
 	print_debug("Source after: ", l.get_tube(source).get_content())
 	print_debug("Target after: ", l.get_tube(target).get_content())
 	return is_success
