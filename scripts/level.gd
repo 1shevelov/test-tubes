@@ -169,3 +169,133 @@ func check_win_condition() -> bool:
 		print_debug("You shouldn't be there")
 		return false
 
+
+# input argument is a Dictionary
+func import_level(data) -> bool:
+	var MAX_DESC_SIZE: int = 160
+	
+	if typeof(data) != TYPE_DICTIONARY || data.empty():
+		print_debug("Wrong data type or empty")
+		return false
+
+	if !data.has("tubes") || typeof(data.tubes) != TYPE_ARRAY || data.tubes.empty():
+		print_debug("No 'tubes' property or invalid type")
+		return false
+	if data.tubes.size() > Globals.MAX_TUBES:
+		print_debug("More then %s tubes is not allowed in level, found %s tubes" \
+				% [Globals.MAX_TUBES, data.tubes.size()])
+		return false
+	for i in data.tubes.size():
+		if typeof(data.tubes[i]) != TYPE_ARRAY || data.tubes[i].empty():
+			print_debug("Tube data is of wrong type or empty")
+			return false
+		if data.tubes.size() < 1 || data.tubes[i].size() > Globals.MAX_TUBE_VOLUME:
+			print_debug("Tube #%s has invalid size of %s" % [i, data.tubes[i].size()])
+			return false
+		for each in data.tubes[i]:
+			if typeof(each) != TYPE_REAL:
+				print_debug("Tube #%s has value of invalid type: %s" \
+						% [i, typeof(each)])
+				return false
+			if int(each) < 0 || int(each) > Globals.MAX_COLORS:
+				print_debug("Tube #%s has invalid color value %s" % [i, each])
+				return false
+	
+	if data.has("drains"):
+		if typeof(data.drains) != TYPE_ARRAY:
+			print_debug("'drains' property is of invalid type")
+			return false
+		if data.drains.size() != data.tubes.size():
+			print_debug("'drains' property is of invalid type")
+			return false
+		for each in data.drains:
+			if typeof(each) != TYPE_REAL:
+				print_debug("'drains' has value of invalid type: ", typeof(each))
+				return false
+			if int(each) < 0 || int(each) > 2:
+				print_debug("'drains' has invalid value of ", each)
+				return false
+	
+	if data.has("desc"):
+		if typeof(data.desc) != TYPE_STRING:
+			print_debug("'desc' property is of invalid type")
+			return false
+		if data.desc.length() > MAX_DESC_SIZE:
+			print_debug("'desc' will be truncated to %s symbols" % MAX_DESC_SIZE)
+			data.desc = data.desc.substr(0, MAX_DESC_SIZE)
+
+	if data.has("win_color"):
+		if typeof(data.win_color) != TYPE_REAL:
+			print_debug("'win_color' property is of invalid type")
+			return false
+		if data.win_color < 0 || data.win_color > Globals.MAX_COLORS:
+			print_debug("'win_color' value is invalid")
+			return false
+		var win_color_present: bool = false
+		for i in data.tubes.size():
+			for each in data.tubes[i]:
+				if each == data.win_color:
+					win_color_present = true
+		if !win_color_present:
+			print_debug("'win_color' value was not found in tubes")
+			return false
+	
+	if data.has("ratings"):
+		if typeof(data.ratings) != TYPE_ARRAY:
+			print_debug("'ratings' property is of invalid type")
+			return false
+		if data.ratings.size() > 3:
+			print_debug("'ratings' property can have no more than 3 records")
+			return false
+		if !data.ratings.empty():
+			for each in data.ratings:
+				if typeof(each) != TYPE_DICTIONARY:
+					print_debug("A record has an invalid type")
+					return false
+				if !each.has("stars") || !each.has("moves"):
+					print_debug("A record should have 'stars' and 'moves' properties")
+					return false
+				if typeof(each.stars) != TYPE_REAL || typeof(each.moves) != TYPE_REAL:
+					print_debug("A record's 'stars' or 'moves' property has invalid type")
+					return false
+				if int(each.stars) < 1 || int(each.stars) > 3:
+					print_debug("A record's 'stars' property is invalid: ", each.stars)
+					return false
+				if int(each.moves) < 1:
+					print_debug("A record's 'moves' property is invalid: ", each.moves)
+					return false
+				if int(each.moves) > Globals.MAX_MOVES:
+					print_debug("A record's 'moves' property is invalid: %s, setting to max" % each.moves)
+					each.moves = Globals.MAX_MOVES
+				if each.has("vol"):
+					if typeof(each.vol) != TYPE_REAL:
+						print_debug("A record's 'vol' property has invalid type - setting to 0")
+						each.vol = 0
+					if int(each.vol) < 0:
+						print_debug("A record's 'vol' property is too small: %s, setting to 0" % each.vol)
+						each.vol = 0
+					if int(each.vol) > Globals.MAX_TUBE_VOLUME * Globals.MAX_MOVES:
+						print_debug("A record's 'vol' property is too big: %s, setting to max" % each.vol)
+						each.vol = Globals.MAX_TUBE_VOLUME * Globals.MAX_MOVES
+						
+	if !set_tubes(data.tubes):
+		print_debug("Error while setting tubes, import aborted")
+		return false
+	if data.has("drains") && !set_drains(data.drains):
+		print_debug("Error while setting drains, import aborted")
+		return false
+	if data.has("desc"):
+		description = data.desc
+	if data.has("win_color"):
+		if data.win_color != 0:
+			win_condition = WIN_CONDITIONS.GATHER_ONE
+		win_color = data.win_color
+	if data.has("ratings"):
+		for each in data.ratings:
+			if !add_rating(each):
+				print_debug("Error while adding rating, import aborted")
+				return false
+	return true
+
+
+

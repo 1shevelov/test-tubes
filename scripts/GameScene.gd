@@ -45,11 +45,13 @@ and a button above the other to pour the portion to.""")
 func show_tubes() -> void:
 	var ROOT_SIZE : Vector2 = $"/root".get_size()
 	
+	var instructions_for_drain: bool = false
 	for i in tubes_number:
 		var screen_part : float = (ROOT_SIZE.x - ROOT_SIZE.x * BORDER * 2) / tubes_number
 		var tube_center_x : float = ROOT_SIZE.x * BORDER + screen_part * (0.5 + i)
 		#print_debug("Root.x = %s, center = %s" % [ROOT_SIZE.x, tube_center_x])
-		var tube_position := Vector2(tube_center_x - TUBE_SIZE.x / 2, ROOT_SIZE.y * BORDER * 3)
+		var tube_position := Vector2(tube_center_x - TUBE_SIZE.x / 2, \
+				ROOT_SIZE.y * BORDER * 3)
 		var a_tube := TUBE_SCENE.instance()
 		a_tube.set_coords(tube_position, TUBE_SIZE)
 		tubes[i] = a_tube
@@ -58,13 +60,18 @@ func show_tubes() -> void:
 		tubes[i].update_tube(Globals.get_level().get_tube(i).get_content())
 		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 2.5)
 		tube_buttons[i] = add_button(i, false, button_center_pos)
-		var bottom_button_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 4 + TUBE_SIZE.y)
+		var bottom_button_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER \
+				* 3.7 + TUBE_SIZE.y)
 		if Globals.get_level().get_tube(i).has_drain:
+			if !instructions_for_drain:
+				instruction.set_text(instruction.get_text() + \
+					"\nButton at the bottom of a tube allows to drain a portion, but not pour in")
+				instructions_for_drain = true
 			bottom_buttons.append(add_button(i, true, bottom_button_pos))
 	
 	message._set_global_position(Vector2(200, ROOT_SIZE.y * BORDER * 0.7))
 	instruction._set_global_position(Vector2(ROOT_SIZE.x / 2 \
-			- 170, ROOT_SIZE.y * BORDER * 4 + TUBE_SIZE.y))
+			- 170, ROOT_SIZE.y * BORDER * 4.5 + TUBE_SIZE.y))
 	$Counters._set_global_position(Vector2(ROOT_SIZE.x / 2 - 70, 25))
 
 
@@ -153,9 +160,9 @@ func get_game_rating() -> String:
 	var rating: int = Globals.get_level().get_performance(game.get_pours(), game.get_pours_volume())
 	var stars: String = ""
 	if rating == 1:
-		stars = "a one star"
+		stars = "a ONE STAR"
 	else:
-		stars = "%s stars" % rating
+		stars = "%s STARS" % rating
 	return """%s moves and %s liquid portions poured
 earn you %s.""" % [game.get_pours(), game.get_pours_volume(), stars]
 

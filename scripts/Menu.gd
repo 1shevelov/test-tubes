@@ -156,7 +156,7 @@ func set_level3() -> void:
 			print_debug("Invalid rating")
 		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 36, "vol": 50}):
+		if !l.add_rating({"stars": 1, "moves": 16, "vol": 22}):
 			print_debug("Invalid rating")
 		levels.append(l)
 		#Globals.set_level(l)
@@ -196,14 +196,14 @@ func set_level5() -> void:
 		[0, 0, 5, 2, 1],
 		[0, 5, 1, 5, 2]
 	]):
-		if !l.set_drains([false, false, true]):
+		if !l.set_drains([true, true, true]):
 			print_debug("Invalid drains array")
-		l.description = "[center][color=lime]EASY[/color] One tube has a bottom faucet\n3 tubes, 3 colors - 8 moves[/center]"
-		if !l.add_rating({"stars": 3, "moves": 8, "vol": 11}):
+		l.description = "[center][color=lime]EASY[/color] All tubes has bottom faucets\n3 tubes, 3 colors - 7 moves[/center]"
+		if !l.add_rating({"stars": 3, "moves": 7, "vol": 7}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 9, "vol": 13}):
+		if !l.add_rating({"stars": 2, "moves": 7, "vol": 8}):
 			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 9, "vol": 15}):
+		if !l.add_rating({"stars": 1, "moves": 8, "vol": 9}):
 			print_debug("Invalid rating")
 		levels.append(l)
 	else:

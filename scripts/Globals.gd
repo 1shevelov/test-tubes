@@ -3,8 +3,10 @@ extends Node
 signal show_message(msg)
 
 const MAX_COLORS := 10
-const MAX_MOVES := 45
-const MAX_TUBE_VOLUME := 6
+# the game will finish after this number of moves
+const MAX_MOVES := 50
+const MAX_TUBE_VOLUME := 8
+const MAX_TUBES := 16
 
 const VALERIA_palette := PoolColorArray([Color8(204, 6, 5), Color8(59, 131, 189),
 	Color8(250, 210, 1), Color8(246, 246, 246), Color8(87, 166, 57),

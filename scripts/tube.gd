@@ -159,13 +159,13 @@ func drain_a_bottom_portion() -> Array:
 	if is_empty():
 		return por
 	var before: Array = get_content()
-	for each in range(before.size() - 1, -1, -1):
-		if each == 0:
+	for i in range(before.size() - 1, -1, -1):
+		if before[i] == 0:
 			print_debug("It can't be true!")
-		if each != 0 && por.empty():
-			por.append(each)
-		elif each == por[0]:
-			por.append(each)
+		if before[i] != 0 && por.empty():
+			por.append(before[i])
+		elif before[i] == por[0]:
+			por.append(before[i])
 		else:
 			break
 	var after: Array = []
@@ -223,8 +223,8 @@ func restore_bottom_portion(por: Array) -> void:
 	var after: Array = []
 	after.resize(before.size())
 	
+	var j: int = por.size() - 1
 	for i in range(after.size() - 1, -1, -1):
-		var j: int = por.size() - 1
 		if j >= 0:
 			after[i] = por[j]
 			j -= 1

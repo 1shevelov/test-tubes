@@ -29,5 +29,5 @@ func _on_TubeButton_toggled(button_pressed):
 
 
 func _on_TubeButton_pressed():
-	emit_signal("but_pressed", num)
+	emit_signal("but_pressed", num, is_bottom)
 
