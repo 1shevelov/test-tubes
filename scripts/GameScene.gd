@@ -62,7 +62,7 @@ func show_tubes() -> void:
 		tube_buttons[i] = add_button(i, false, button_center_pos)
 		var bottom_button_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER \
 				* 3.7 + TUBE_SIZE.y)
-		if Globals.get_level().get_tube(i).has_drain:
+		if Globals.get_level().get_tube(i).drains != Tube.DRAINS.NECK:
 			if !instructions_for_drain:
 				instruction.set_text(instruction.get_text() + \
 					"\nButton at the bottom of a tube allows to drain a portion, but not pour in")
@@ -161,6 +161,10 @@ func get_game_rating() -> String:
 	var stars: String = ""
 	if rating == 1:
 		stars = "a ONE STAR"
+	elif rating == 0:
+		stars = "NO STARS"
+	elif rating == -1:
+		stars = "NO LEVEL RATINGS"
 	else:
 		stars = "%s STARS" % rating
 	return """%s moves and %s liquid portions poured

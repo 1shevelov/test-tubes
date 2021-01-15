@@ -3,7 +3,9 @@ class_name Tube
 
 # number of portions can contain
 var _volume: int = 0 setget set_volume, get_volume
-var has_drain: bool = false
+
+enum DRAINS {NECK, BOTTOM, BOTH}
+var drains: int = DRAINS.NECK
 
 var _content: Array = [] setget set_content, get_content
 
@@ -50,12 +52,10 @@ func set_content(new_content: Array) -> bool:
 		if each < 0 || each > Globals.MAX_COLORS:
 			print_debug("Invalid color value: ", each)
 			return false
-#	if !is_empty():
-#		print_debug("The tube is not empty, couldn't set it's content")
-#		return false
 		
 	_content.resize(new_content.size())
-	_content = new_content.duplicate()
+	for i in new_content.size():
+		_content[i] = int(new_content[i])
 	return true
 	
 		
@@ -69,6 +69,10 @@ func get_content() -> Array:
 	
 # portion = [1, 1, 1]
 func add_a_portion(por: Array) -> Array:
+	if drains == DRAINS.BOTTOM:
+		print_debug("Can't add a portion cause tube's neck is sealed")
+		Globals.send_message("Can't add a portion cause tube's neck is sealed")
+		return por
 	if por.size() == 0:
 		print_debug("Empty portion")
 		Globals.send_message("This portion is empty")
@@ -112,8 +116,12 @@ func divide_a_portion(por: Array) -> Array:
 	return por
 	
 
+# only from the neck
 func drain_a_portion() -> Array:
 	var por: Array = []
+	if drains == DRAINS.BOTTOM:
+		print_debug("Can't drain a portion from tube's neck cause it is sealed")
+		return por
 	if is_empty():
 		return por
 	#var por_color: int = get_top_color()
@@ -156,6 +164,9 @@ func get_empty_volume() -> int:
 # for draining through a faucet in the bottom
 func drain_a_bottom_portion() -> Array:
 	var por: Array = []
+	if drains == DRAINS.NECK:
+		print_debug("Can't drain a portion from tube's bottom cause it has no bottom faucet")
+		return por
 	if is_empty():
 		return por
 	var before: Array = get_content()

@@ -15,6 +15,8 @@ const VALERIA_palette := PoolColorArray([Color8(204, 6, 5), Color8(59, 131, 189)
 
 var _curr_level: Level setget set_level, get_level
 
+const LEVELS_PATH := "res://levels"
+
 
 func set_message_receiver(receiver_node: Node2D) -> void:
 	# warning-ignore:return_value_discarded

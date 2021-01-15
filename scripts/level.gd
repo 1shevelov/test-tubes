@@ -2,7 +2,7 @@ extends GDScript
 class_name Level
 
 var _tubes: Array = [] setget set_tubes
-var _tubes_with_drain: Array = [] setget set_drains
+#var _tubes_with_drain: Array = [] setget set_drains
 
 enum WIN_CONDITIONS {GATHER_ALL, GATHER_ONE}
 const WIN_CONDITIONS_HINTS := [
@@ -28,28 +28,31 @@ func set_drains(drains: Array) -> bool:
 		print_debug("Drains array doesn't equal to tubes array")
 		return false
 	for i in drains.size():
-		if typeof(drains[i]) != TYPE_BOOL:
+		if !(typeof(drains[i]) == TYPE_REAL || typeof(drains[i]) == TYPE_INT):
 			print_debug("Invalid type of drain array member: ", typeof(drains[i]))
 			return false
-		if drains[i]:
-			get_tube(i).has_drain = true
+		if drains[i] in Tube.DRAINS.values():
+			get_tube(i).drains = drains[i]
+		else:
+			print_debug("Drains array member' value is invalid: ", drains[i])
+			return false
 	return true
 
 
 # new_rating = {"stars": 0, "moves": 0, "vol": 0}
 func add_rating(new_rating: Dictionary) -> bool:
-	if !new_rating.has("stars") || !new_rating.has("moves") || !new_rating.has("vol"):
-		print_debug("Error setting rating: missing a property")
-		return false
-	if typeof(new_rating.stars) != TYPE_INT || new_rating.stars < 1 || new_rating.stars > 3:
-		print_debug("Error setting rating: wrong stars")
-		return false
-	if typeof(new_rating.moves) != TYPE_INT || new_rating.moves < 1 || new_rating.moves > Globals.MAX_MOVES:
-		print_debug("Error setting rating: wrong moves")
-		return false
-	if typeof(new_rating.vol) != TYPE_INT || new_rating.vol < 1:
-		print_debug("Error setting rating: wrong vol")
-		return false
+#	if !new_rating.has("stars") || !new_rating.has("moves") || !new_rating.has("vol"):
+#		print_debug("Error setting rating: missing a property")
+#		return false
+#	if typeof(new_rating.stars) != TYPE_INT || new_rating.stars < 1 || new_rating.stars > 3:
+#		print_debug("Error setting rating: wrong stars")
+#		return false
+#	if typeof(new_rating.moves) != TYPE_INT || new_rating.moves < 1 || new_rating.moves > Globals.MAX_MOVES:
+#		print_debug("Error setting rating: wrong moves")
+#		return false
+#	if typeof(new_rating.vol) != TYPE_INT || new_rating.vol < 1:
+#		print_debug("Error setting rating: wrong vol")
+#		return false
 		
 	if _performance_ratings.empty():
 		_performance_ratings.resize(3)
@@ -67,14 +70,17 @@ func add_rating(new_rating: Dictionary) -> bool:
 
 func get_performance(moves: int = Globals.MAX_MOVES, vol: int = 0) -> int:
 	var rating: int = 0
-	for each in _performance_ratings:
-		if moves <= each.moves && vol <= each.vol:
-			rating = each.stars
+	if _performance_ratings.empty():
+		return -1
+	else:
+		for each in _performance_ratings:
+			if moves <= each.moves && vol <= each.vol:
+				rating = each.stars
 	return rating
 
 
 func set_tubes(input_tubes: Array) -> bool:
-	if !check_input(input_tubes):
+	if !check_input_tubes(input_tubes):
 		print_debug("Level initialization failed")
 		return false
 	else:
@@ -104,7 +110,7 @@ func get_tube(tube_num: int) -> Tube:
 	return _tubes[tube_num]
 	
 	
-func check_input(tubes_2_check: Array) -> bool:
+func check_input_tubes(tubes_2_check: Array) -> bool:
 	for i in tubes_2_check.size():
 		if typeof(tubes_2_check[i]) != TYPE_ARRAY ||tubes_2_check[i].empty():
 			print_debug("Tube data is of wrong type or empty")
@@ -293,8 +299,7 @@ func import_level(data) -> bool:
 	if data.has("ratings"):
 		for each in data.ratings:
 			if !add_rating(each):
-				print_debug("Error while adding rating, import aborted")
-				return false
+				print_debug("Error while adding rating")
 	return true
 
 

@@ -36,7 +36,8 @@ func init_levels() -> void:
 
 
 func make_levels_list() -> void:
-	init_levels()
+	#init_levels()
+	load_levels()
 	for i in levels.size():
 		var l := LEVEL_LABEL.instance()
 		l.label_text = levels[i].description
@@ -196,7 +197,7 @@ func set_level5() -> void:
 		[0, 0, 5, 2, 1],
 		[0, 5, 1, 5, 2]
 	]):
-		if !l.set_drains([true, true, true]):
+		if !l.set_drains([Tube.DRAINS.BOTH, Tube.DRAINS.BOTH, Tube.DRAINS.BOTH]):
 			print_debug("Invalid drains array")
 		l.description = "[center][color=lime]EASY[/color] All tubes has bottom faucets\n3 tubes, 3 colors - 7 moves[/center]"
 		if !l.add_rating({"stars": 3, "moves": 7, "vol": 7}):
@@ -208,3 +209,72 @@ func set_level5() -> void:
 		levels.append(l)
 	else:
 		print_debug("Error while activating level 5")
+
+
+func load_levels() -> void:
+	if !levels.empty():
+		levels.clear()
+	var files_list: Array = get_levels_list()
+	if files_list.empty():
+		print_debug("No level files found")
+		return
+	for each_file in files_list:
+		var level_data: Dictionary = load_level(each_file)
+		var l := Level.new()
+		if l.import_level(level_data):
+			levels.append(l)
+		else:
+			print_debug("Was unable to load level '%s'" % each_file)
+
+
+func load_level(path: String) -> Dictionary:
+	var file: File = File.new()
+	if !file.file_exists(path):
+		print_debug("File '%s' was not found" % path)
+		return {}
+	var err: int = file.open(path, file.READ)
+	if err != OK:
+		print_debug("Error while opening file: ", path)
+		print_debug("Error message: ", err)
+		file.close()
+		return {}
+	var level_str: String = file.get_as_text()
+	var err2: String = validate_json(level_str)
+	if err2 != "":
+		print_debug("Invalid JSON data, error: ", err2)
+		return {}
+	var level_data = parse_json(level_str)
+	if typeof(level_data) != TYPE_DICTIONARY:
+		print_debug("JSON data is of invalid type: ", typeof(level_data))
+		return {}
+	if level_data.empty():
+		print_debug("Level data is empty")
+		return {}
+	return level_data
+
+
+func get_levels_list() -> Array:
+	var LEVEL_EXT: String = "json"
+	
+	var err: int
+	var dir: Directory = Directory.new()
+	if !dir.dir_exists(Globals.LEVELS_PATH):
+		print_debug("Levels directory not found!?")
+		return []
+	err = dir.open(Globals.LEVELS_PATH)
+	if err != OK:
+		print_debug("Error accessing levels directory: ", err)
+		return []
+	err = dir.list_dir_begin(true, false)
+	if err != OK:
+		print_debug("Error while reading dir content: ", err)
+		return []
+	var file_name: String = dir.get_next()
+	var files_list: Array = []
+	while file_name != "":
+		if  file_name.get_extension() == LEVEL_EXT:
+			files_list.append(Globals.LEVELS_PATH + "/" + file_name)
+		file_name = dir.get_next()
+	files_list.sort()
+	return files_list
+		
