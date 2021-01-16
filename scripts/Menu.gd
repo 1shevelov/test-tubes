@@ -28,11 +28,11 @@ func restart_game() -> void:
 func init_levels() -> void:
 	if !levels.empty():
 		levels.clear()
-	set_level1()
-	set_level2()
-	set_level3()
-	set_level4()
-	set_level5()
+#	set_level1()
+#	set_level2()
+#	set_level3()
+#	set_level4()
+#	set_level5()
 
 
 func make_levels_list() -> void:
@@ -87,128 +87,128 @@ func _on_label_clicked(label_num: int) -> void:
 #		print_debug("Error while activating level 1")
 
 
-func set_level1() -> void:
-	var l := Level.new()
-	if l.set_tubes([
-		[5],
-		[4, 3],
-		[0, 5],
-		[3, 2, 4],
-		[5, 3, 2, 4],
-		[0, 4, 5, 1, 5],
-		[0, 0, 0, 0]
-	]):
-		l.description = "[center][color=lime]EASY[/color] Varying tubes and liquids' volumes\n7 tubes, 5 colors - 15 moves[/center]"
-		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 15, "vol": 21}):
-			print_debug("Invalid rating")
-		levels.append(l)
-		#Globals.set_level(l)
-	else:
-		print_debug("Error while activating level 1")
-		
-
-func set_level2() -> void:
-	var l := Level.new()
-	if l.set_tubes([
-		[5],
-		[4, 3],
-		[0, 5],
-		[3, 2, 4],
-		[5, 3, 2, 4],
-		[0, 4, 5, 1, 5],
-		[0, 0, 0, 0]
-	]):
-		l.description = "[center][color=lime]EASY[/color] Same as #1 but gather only [color=lime]GREEN[/color]\n7 moves[/center]"
-		l.win_condition = l.WIN_CONDITIONS.GATHER_ONE
-		l.win_color = 5
-		if !l.add_rating({"stars": 3, "moves": 7, "vol": 9}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 8, "vol": 11}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 8, "vol": 12}):
-			print_debug("Invalid rating")
-		levels.append(l)
-		#Globals.set_level(l)
-	else:
-		print_debug("Error while activating level 2")
-
-
-func set_level3() -> void:
-	var l := Level.new()
-	if l.set_tubes([
-		[1, 2, 3, 4],
-		[5, 6, 7, 8],
-		[8, 6, 6, 1],
-		[5, 3, 2, 7],
-		[2, 5, 8, 1],
-		[9, 3, 5, 2],
-		[4, 9, 9, 8],
-		[6, 7, 1, 7],
-		[3, 9, 4, 4],
-		[0, 0, 0, 0],
-		[0, 0, 0, 0]
-	]):
-		l.description = "[center][color=red]HARD[/color] Water Sort Puzzle classic\n11 tubes, 9 colors - 36 moves[/center]"
-		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 16, "vol": 22}):
-			print_debug("Invalid rating")
-		levels.append(l)
-		#Globals.set_level(l)
-	else:
-		print_debug("Error while activating level 3")
-
-
-func set_level4() -> void:
-	var l := Level.new()
-	if l.set_tubes([
-		[0, 5, 8, 8],
-		[3, 6, 5, 3],
-		[3, 8, 2, 2],
-		[6, 4, 7, 7],
-		[8, 7, 2, 6],
-		[7, 2, 4, 4],
-		[4, 3, 5, 5],
-		[0, 0, 0, 6]
-	]):
-		l.description = "[center][color=yellow]MEDIUM[/color] Hoops: one way to solve\n8 tubes, 7 colors - 16 moves[/center]"
-		if !l.add_rating({"stars": 3, "moves": 16, "vol": 20}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 16, "vol": 21}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 17, "vol": 22}):
-			print_debug("Invalid rating")
-		levels.append(l)
-		#Globals.set_level(l)
-	else:
-		print_debug("Error while activating level 4")
-
-
-func set_level5() -> void:
-	var l := Level.new()
-	if l.set_tubes([
-		[0, 0, 1, 2, 5],
-		[0, 0, 5, 2, 1],
-		[0, 5, 1, 5, 2]
-	]):
-		if !l.set_drains([Tube.DRAINS.BOTH, Tube.DRAINS.BOTH, Tube.DRAINS.BOTH]):
-			print_debug("Invalid drains array")
-		l.description = "[center][color=lime]EASY[/color] All tubes has bottom faucets\n3 tubes, 3 colors - 7 moves[/center]"
-		if !l.add_rating({"stars": 3, "moves": 7, "vol": 7}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 2, "moves": 7, "vol": 8}):
-			print_debug("Invalid rating")
-		if !l.add_rating({"stars": 1, "moves": 8, "vol": 9}):
-			print_debug("Invalid rating")
-		levels.append(l)
-	else:
-		print_debug("Error while activating level 5")
+#func set_level1() -> void:
+#	var l := Level.new()
+#	if l.set_tubes([
+#		[5],
+#		[4, 3],
+#		[0, 5],
+#		[3, 2, 4],
+#		[5, 3, 2, 4],
+#		[0, 4, 5, 1, 5],
+#		[0, 0, 0, 0]
+#	]):
+#		l.description = "[center][color=lime]EASY[/color] Varying tubes and liquids' volumes\n7 tubes, 5 colors - 15 moves[/center]"
+#		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 1, "moves": 15, "vol": 21}):
+#			print_debug("Invalid rating")
+#		levels.append(l)
+#		#Globals.set_level(l)
+#	else:
+#		print_debug("Error while activating level 1")
+#
+#
+#func set_level2() -> void:
+#	var l := Level.new()
+#	if l.set_tubes([
+#		[5],
+#		[4, 3],
+#		[0, 5],
+#		[3, 2, 4],
+#		[5, 3, 2, 4],
+#		[0, 4, 5, 1, 5],
+#		[0, 0, 0, 0]
+#	]):
+#		l.description = "[center][color=lime]EASY[/color] Same as #1 but gather only [color=lime]GREEN[/color]\n7 moves[/center]"
+#		l.win_condition = l.WIN_CONDITIONS.GATHER_ONE
+#		l.win_color = 5
+#		if !l.add_rating({"stars": 3, "moves": 7, "vol": 9}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 2, "moves": 8, "vol": 11}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 1, "moves": 8, "vol": 12}):
+#			print_debug("Invalid rating")
+#		levels.append(l)
+#		#Globals.set_level(l)
+#	else:
+#		print_debug("Error while activating level 2")
+#
+#
+#func set_level3() -> void:
+#	var l := Level.new()
+#	if l.set_tubes([
+#		[1, 2, 3, 4],
+#		[5, 6, 7, 8],
+#		[8, 6, 6, 1],
+#		[5, 3, 2, 7],
+#		[2, 5, 8, 1],
+#		[9, 3, 5, 2],
+#		[4, 9, 9, 8],
+#		[6, 7, 1, 7],
+#		[3, 9, 4, 4],
+#		[0, 0, 0, 0],
+#		[0, 0, 0, 0]
+#	]):
+#		l.description = "[center][color=red]HARD[/color] Water Sort Puzzle classic\n11 tubes, 9 colors - 36 moves[/center]"
+#		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 1, "moves": 16, "vol": 22}):
+#			print_debug("Invalid rating")
+#		levels.append(l)
+#		#Globals.set_level(l)
+#	else:
+#		print_debug("Error while activating level 3")
+#
+#
+#func set_level4() -> void:
+#	var l := Level.new()
+#	if l.set_tubes([
+#		[0, 5, 8, 8],
+#		[3, 6, 5, 3],
+#		[3, 8, 2, 2],
+#		[6, 4, 7, 7],
+#		[8, 7, 2, 6],
+#		[7, 2, 4, 4],
+#		[4, 3, 5, 5],
+#		[0, 0, 0, 6]
+#	]):
+#		l.description = "[center][color=yellow]MEDIUM[/color] Hoops: one way to solve\n8 tubes, 7 colors - 16 moves[/center]"
+#		if !l.add_rating({"stars": 3, "moves": 16, "vol": 20}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 2, "moves": 16, "vol": 21}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 1, "moves": 17, "vol": 22}):
+#			print_debug("Invalid rating")
+#		levels.append(l)
+#		#Globals.set_level(l)
+#	else:
+#		print_debug("Error while activating level 4")
+#
+#
+#func set_level5() -> void:
+#	var l := Level.new()
+#	if l.set_tubes([
+#		[0, 0, 1, 2, 5],
+#		[0, 0, 5, 2, 1],
+#		[0, 5, 1, 5, 2]
+#	]):
+#		if !l.set_drains([Tube.DRAINS.BOTH, Tube.DRAINS.BOTH, Tube.DRAINS.BOTH]):
+#			print_debug("Invalid drains array")
+#		l.description = "[center][color=lime]EASY[/color] All tubes has bottom faucets\n3 tubes, 3 colors - 7 moves[/center]"
+#		if !l.add_rating({"stars": 3, "moves": 7, "vol": 7}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 2, "moves": 7, "vol": 8}):
+#			print_debug("Invalid rating")
+#		if !l.add_rating({"stars": 1, "moves": 8, "vol": 9}):
+#			print_debug("Invalid rating")
+#		levels.append(l)
+#	else:
+#		print_debug("Error while activating level 5")
 
 
 func load_levels() -> void:
