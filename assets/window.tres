@@ -1,0 +1,34 @@
+[gd_resource type="Theme" load_steps=7 format=2]
+
+[ext_resource path="res://assets/fonts/main.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/bckg_styleboxflat.tres" type="StyleBox" id=2]
+[ext_resource path="res://assets/button_hover_styleboxflat.tres" type="StyleBox" id=3]
+[ext_resource path="res://assets/button_focus_styleboxflat.tres" type="StyleBox" id=4]
+[ext_resource path="res://assets/button_normal_styleboxflat.tres" type="StyleBox" id=5]
+[ext_resource path="res://assets/button_pressed_styleboxflat.tres" type="StyleBox" id=6]
+
+[resource]
+default_font = ExtResource( 1 )
+Button/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/styles/disabled = null
+Button/styles/focus = ExtResource( 4 )
+Button/styles/hover = ExtResource( 3 )
+Button/styles/normal = ExtResource( 5 )
+Button/styles/pressed = ExtResource( 6 )
+Dialogs/constants/button_margin = 32
+Dialogs/constants/margin = 8
+PopupDialog/styles/panel = ExtResource( 2 )
+WindowDialog/colors/title_color = Color( 0.992157, 0.964706, 0.890196, 1 )
+WindowDialog/constants/close_h_ofs = 18
+WindowDialog/constants/close_v_ofs = 18
+WindowDialog/constants/scaleborder_size = 4
+WindowDialog/constants/title_height = 30
+WindowDialog/fonts/title_font = null
+WindowDialog/icons/close = null
+WindowDialog/icons/close_highlight = null
+WindowDialog/styles/panel = ExtResource( 2 )

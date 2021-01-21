@@ -2,7 +2,8 @@ extends Node2D
 
 var menu
 
-var game : Game
+var game: Game
+
 const TUBE_SCENE := preload("res://scenes/TubeScene.tscn")
 var tubes: Array = [] # of TUBE_SCENE
 
@@ -37,7 +38,7 @@ and a button above the other to pour the portion to.""")
 	Globals.set_message_receiver(self)
 	tubes_number = Globals.get_level().get_all_tubes_content().size()
 	tubes.resize(tubes_number)
-	tube_buttons.resize(tubes_number)
+	#tube_buttons.resize(tubes_number)
 	show_tubes()
 	update_counters()
 
@@ -58,15 +59,18 @@ func show_tubes() -> void:
 		tubes[i].init(Globals.get_level().get_tube(i).get_content())
 		add_child(tubes[i])
 		tubes[i].update_tube(Globals.get_level().get_tube(i).get_content())
-		var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER * 2.5)
-		tube_buttons[i] = add_button(i, false, button_center_pos)
-		var bottom_button_pos := Vector2(tube_center_x, ROOT_SIZE.y * BORDER \
-				* 3.7 + TUBE_SIZE.y)
+		if Globals.get_level().get_tube(i).drains != Tube.DRAINS.BOTTOM:
+			var button_center_pos := Vector2(tube_center_x, ROOT_SIZE.y \
+					* BORDER * 2.5)
+			tube_buttons.append(add_button(i, false, button_center_pos))
+		
 		if Globals.get_level().get_tube(i).drains != Tube.DRAINS.NECK:
 			if !instructions_for_drain:
 				instruction.set_text(instruction.get_text() + \
 					"\nButton at the bottom of a tube allows to drain a portion, but not pour in")
 				instructions_for_drain = true
+			var bottom_button_pos := Vector2(tube_center_x, ROOT_SIZE.y \
+					* BORDER * 3.7 + TUBE_SIZE.y)
 			bottom_buttons.append(add_button(i, true, bottom_button_pos))
 	
 	message._set_global_position(Vector2(200, ROOT_SIZE.y * BORDER * 0.7))
@@ -116,11 +120,11 @@ func _on_but_pressed(num: int, is_bottom: bool) -> void:
 		source_bottom_faucet = false
 		reset_buttons()
 		if Globals.get_level().check_win_condition():
-			print_debug("GAME IS WON!")
+			#print_debug("GAME IS WON!")
 			Globals.send_message("GAME IS WON!")
 			end_game()
 		elif game.get_pours() > Globals.MAX_MOVES:
-			print_debug("GAME IS LOST: TOO MANY MOVES!")
+			#print_debug("GAME IS LOST: TOO MANY MOVES!")
 			Globals.send_message("GAME IS LOST: TOO MANY MOVES!")
 			end_game()
 	
@@ -172,6 +176,7 @@ earn you %s.""" % [game.get_pours(), game.get_pours_volume(), stars]
 
 
 func _on_ButtonMenu_pressed():
+	Globals.get_level().reset_level()
 	menu.close_game()
 
 

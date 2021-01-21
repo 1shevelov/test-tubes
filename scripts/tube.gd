@@ -58,12 +58,13 @@ func set_content(new_content: Array) -> bool:
 		_content[i] = int(new_content[i])
 	return true
 	
-		
+	
+# CAREFUL! returns the reference to the _content array
 func get_content() -> Array:
 	if _content.empty():
 		_content.resize(get_volume())
-		for each in _content:
-			each = 0
+		for i in _content.size():
+			_content[i] = 0
 	return _content
 	
 	
@@ -172,7 +173,8 @@ func drain_a_bottom_portion() -> Array:
 	var before: Array = get_content()
 	for i in range(before.size() - 1, -1, -1):
 		if before[i] == 0:
-			print_debug("It can't be true!")
+			#print_debug("It can't be true!")
+			continue
 		if before[i] != 0 && por.empty():
 			por.append(before[i])
 		elif before[i] == por[0]:

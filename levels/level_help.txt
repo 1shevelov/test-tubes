@@ -1,0 +1,26 @@
+
+"tubes" (array of arrays)
+Each member of "tubes" is an array representing one tube. A level can have 1 to 16 tubes.
+Each element (number) of a tube array - is the smallest portion. A tube's volume ranges from 1 to 8 portions. The top volume(portion) of a tube has index 0. A value of each element represent a color of liquid, from 1 to 10. 0 (zero) - is an empty volume (portion).
+
+It is not allowed to have 0 (empty portion) lower (higher array index) than liquid portion. [1, 2, 0] - is an error, level wouldn't be playable.
+
+
+(optional) "drains" (array of numbers)
+Should has the same size as tubes array. Each element shows holes or faucets for a tube:
+   0 - standard tube with open neck that allows to pour in and out. (a FIFO stack)
+   1 - a tube with a bottom faucet only alowing to pour out (drain), but not to pour in.
+   2 - a tube with both an open neck and a bottom faucet. Neck allows to pour in and out while faucet only for pouring out. (working as a FIFO + FILO stack)
+ 
+ 
+(optional) "win_color" (number):
+   0 (default) - Gather all colors, each in it's own container, to win
+   1..10 - Gather only one color with this number in any one tube to win.
+   
+At least one portion of this color should be present in tubes. It would be an unconditional win if only one portion of win_color is present or all portions of this color are in the same tube at the end of the first move.
+ 
+ 
+Moves limit for any level is 50. The game will finish with a "LOSE" after fiftieth move.
+ 	
+__________________________
+Created by Andrei Shevelev. Visit https://shevelev.net/blog/en/test-tubes/

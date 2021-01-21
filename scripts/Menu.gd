@@ -4,39 +4,29 @@ const GAME_SCENE := preload("res://scenes/GameScene.tscn")
 var game_scene: Node2D
 
 const LEVEL_LABEL := preload("res://scenes/LevelLabel.tscn")
-var levels: Array = []
-onready var levels_list: VBoxContainer = $CenterContainer/MainVBox/LevelSelection
+var levels: Array = [] # of Level
+onready var levels_list: VBoxContainer = $MainHBox/MainVBox/LevelSelection
+
+onready var import_text_control: TextEdit = $DialogImport/MarginCont/VBoxCont/InputText
 
 
 func _ready():
 	make_levels_list()
+	load_import_help()
 
 
 func close_game() -> void:
 	if is_instance_valid(game_scene):
 		game_scene.queue_free()
 	set_visible(true)
-	init_levels()
 	
 	
-# doesn't work
 func restart_game() -> void:
 	close_game()
 	run_game()
-	
-
-func init_levels() -> void:
-	if !levels.empty():
-		levels.clear()
-#	set_level1()
-#	set_level2()
-#	set_level3()
-#	set_level4()
-#	set_level5()
 
 
 func make_levels_list() -> void:
-	#init_levels()
 	load_levels()
 	for i in levels.size():
 		var l := LEVEL_LABEL.instance()
@@ -44,10 +34,6 @@ func make_levels_list() -> void:
 		l.menu = self
 		l.set_name("LevelLabel_%s" % [i + 1])
 		levels_list.add_child(l)
-		
-
-func _on_Button_pressed():
-	pass
 
 	
 func run_game() -> void:
@@ -87,130 +73,6 @@ func _on_label_clicked(label_num: int) -> void:
 #		print_debug("Error while activating level 1")
 
 
-#func set_level1() -> void:
-#	var l := Level.new()
-#	if l.set_tubes([
-#		[5],
-#		[4, 3],
-#		[0, 5],
-#		[3, 2, 4],
-#		[5, 3, 2, 4],
-#		[0, 4, 5, 1, 5],
-#		[0, 0, 0, 0]
-#	]):
-#		l.description = "[center][color=lime]EASY[/color] Varying tubes and liquids' volumes\n7 tubes, 5 colors - 15 moves[/center]"
-#		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 1, "moves": 15, "vol": 21}):
-#			print_debug("Invalid rating")
-#		levels.append(l)
-#		#Globals.set_level(l)
-#	else:
-#		print_debug("Error while activating level 1")
-#
-#
-#func set_level2() -> void:
-#	var l := Level.new()
-#	if l.set_tubes([
-#		[5],
-#		[4, 3],
-#		[0, 5],
-#		[3, 2, 4],
-#		[5, 3, 2, 4],
-#		[0, 4, 5, 1, 5],
-#		[0, 0, 0, 0]
-#	]):
-#		l.description = "[center][color=lime]EASY[/color] Same as #1 but gather only [color=lime]GREEN[/color]\n7 moves[/center]"
-#		l.win_condition = l.WIN_CONDITIONS.GATHER_ONE
-#		l.win_color = 5
-#		if !l.add_rating({"stars": 3, "moves": 7, "vol": 9}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 2, "moves": 8, "vol": 11}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 1, "moves": 8, "vol": 12}):
-#			print_debug("Invalid rating")
-#		levels.append(l)
-#		#Globals.set_level(l)
-#	else:
-#		print_debug("Error while activating level 2")
-#
-#
-#func set_level3() -> void:
-#	var l := Level.new()
-#	if l.set_tubes([
-#		[1, 2, 3, 4],
-#		[5, 6, 7, 8],
-#		[8, 6, 6, 1],
-#		[5, 3, 2, 7],
-#		[2, 5, 8, 1],
-#		[9, 3, 5, 2],
-#		[4, 9, 9, 8],
-#		[6, 7, 1, 7],
-#		[3, 9, 4, 4],
-#		[0, 0, 0, 0],
-#		[0, 0, 0, 0]
-#	]):
-#		l.description = "[center][color=red]HARD[/color] Water Sort Puzzle classic\n11 tubes, 9 colors - 36 moves[/center]"
-#		if !l.add_rating({"stars": 3, "moves": 15, "vol": 19}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 2, "moves": 15, "vol": 20}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 1, "moves": 16, "vol": 22}):
-#			print_debug("Invalid rating")
-#		levels.append(l)
-#		#Globals.set_level(l)
-#	else:
-#		print_debug("Error while activating level 3")
-#
-#
-#func set_level4() -> void:
-#	var l := Level.new()
-#	if l.set_tubes([
-#		[0, 5, 8, 8],
-#		[3, 6, 5, 3],
-#		[3, 8, 2, 2],
-#		[6, 4, 7, 7],
-#		[8, 7, 2, 6],
-#		[7, 2, 4, 4],
-#		[4, 3, 5, 5],
-#		[0, 0, 0, 6]
-#	]):
-#		l.description = "[center][color=yellow]MEDIUM[/color] Hoops: one way to solve\n8 tubes, 7 colors - 16 moves[/center]"
-#		if !l.add_rating({"stars": 3, "moves": 16, "vol": 20}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 2, "moves": 16, "vol": 21}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 1, "moves": 17, "vol": 22}):
-#			print_debug("Invalid rating")
-#		levels.append(l)
-#		#Globals.set_level(l)
-#	else:
-#		print_debug("Error while activating level 4")
-#
-#
-#func set_level5() -> void:
-#	var l := Level.new()
-#	if l.set_tubes([
-#		[0, 0, 1, 2, 5],
-#		[0, 0, 5, 2, 1],
-#		[0, 5, 1, 5, 2]
-#	]):
-#		if !l.set_drains([Tube.DRAINS.BOTH, Tube.DRAINS.BOTH, Tube.DRAINS.BOTH]):
-#			print_debug("Invalid drains array")
-#		l.description = "[center][color=lime]EASY[/color] All tubes has bottom faucets\n3 tubes, 3 colors - 7 moves[/center]"
-#		if !l.add_rating({"stars": 3, "moves": 7, "vol": 7}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 2, "moves": 7, "vol": 8}):
-#			print_debug("Invalid rating")
-#		if !l.add_rating({"stars": 1, "moves": 8, "vol": 9}):
-#			print_debug("Invalid rating")
-#		levels.append(l)
-#	else:
-#		print_debug("Error while activating level 5")
-
-
 func load_levels() -> void:
 	if !levels.empty():
 		levels.clear()
@@ -239,6 +101,10 @@ func load_level(path: String) -> Dictionary:
 		file.close()
 		return {}
 	var level_str: String = file.get_as_text()
+	return level_str2dic(level_str)
+
+
+func level_str2dic(level_str: String) -> Dictionary:
 	var err2: String = validate_json(level_str)
 	if err2 != "":
 		print_debug("Invalid JSON data, error: ", err2)
@@ -251,7 +117,7 @@ func load_level(path: String) -> Dictionary:
 		print_debug("Level data is empty")
 		return {}
 	return level_data
-
+	
 
 func get_levels_list() -> Array:
 	var LEVEL_EXT: String = "json"
@@ -278,3 +144,64 @@ func get_levels_list() -> Array:
 	files_list.sort()
 	return files_list
 		
+
+func _on_ButtonImport_pressed():
+	$DialogImport.popup_centered()
+
+
+func _on_ButtonPlay_pressed():
+	var level_data: Dictionary = level_str2dic(import_text_control.get_text())
+	var l := Level.new()
+	if l.import_level(level_data):
+		$DialogImport.hide()
+		Globals.set_level(l)
+		run_game()
+	
+
+#func show_import_error(error_str: String) -> void:
+#	import_text_control.set_text("%s\n   ---------   \n%s" % [error_str.to_upper(), \
+#			import_text_control.get_text()])
+
+
+func load_import_help() -> void:
+	var help_text_file: String = "%s/level_help.txt" % Globals.LEVELS_PATH
+	var help_examples_file: String = "%s/level_examples.txt" % Globals.LEVELS_PATH
+	
+	var file: File = File.new()
+	var err: int = 0
+	var help_text_str: String = ""
+	if !file.file_exists(help_text_file):
+		print_debug("File '%s' was not found" % help_text_file)
+	else:
+		err = file.open(help_text_file, file.READ)
+		if err != OK:
+			print_debug("Error while opening file: ", help_text_file)
+			print_debug("Error message: ", err)
+		else:
+			help_text_str = file.get_as_text()
+	file.close()
+	
+	file = File.new()
+	var help_examples_str: String = ""
+	if !file.file_exists(help_examples_file):
+		print_debug("File '%s' was not found" % help_examples_file)
+	else:
+		err = file.open(help_examples_file, file.READ)
+		if err != OK:
+			print_debug("Error while opening file: ", help_examples_file)
+			print_debug("Error message: ", err)
+		else:
+			help_examples_str = file.get_as_text()
+	file.close()
+	
+	var help_help: String = """\nBEFORE PRESSING 'PLAY' DELETE EVERYTING HERE EXCEPT LEVEL JSON CODE
+(it starts with '{' and ends with '}')
+(if your level wasn't started check for errors in browser's console)
+__________________________\n\n"""
+	import_text_control.set_text(help_help + help_examples_str + help_text_str)
+	
+
+func _on_ButtonHelp_pressed():
+	load_import_help()
+
+

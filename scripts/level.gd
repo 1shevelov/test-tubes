@@ -3,6 +3,8 @@ class_name Level
 
 var _tubes: Array = [] setget set_tubes
 #var _tubes_with_drain: Array = [] setget set_drains
+var _tubes_reset_copy: Array = []
+var _drains_reset_copy: Array = []
 
 enum WIN_CONDITIONS {GATHER_ALL, GATHER_ONE}
 const WIN_CONDITIONS_HINTS := [
@@ -300,7 +302,41 @@ func import_level(data) -> bool:
 		for each in data.ratings:
 			if !add_rating(each):
 				print_debug("Error while adding rating")
+	make_reset_copy()
 	return true
 
 
+func make_reset_copy() -> void:
+	if _tubes.empty():
+		print_debug("The tubes array is empty!")
+	elif !_tubes_reset_copy.empty():
+		print_debug("The reset copy was already made!")
+	else:
+		for i in _tubes.size():
+			_tubes_reset_copy.append(get_tube(i).get_content().duplicate())
+	if !_drains_reset_copy.empty():
+		print_debug("Drains reset copy was already made!")
+	else:
+		for i in _tubes.size():
+			_drains_reset_copy.append(get_tube(i).drains)
+
+
+func reset_level() -> void:
+	if _tubes_reset_copy.empty():
+		print_debug("Reset copy is empty!")
+	elif _drains_reset_copy.empty():
+		print_debug("Drains reset copy is empty!")
+	else:
+		_tubes.clear()
+#		for t in _tubes_reset_copy:
+#			var tube := Tube.new()
+#			tube.set_volume(t.size())
+#			if !tube.set_content(t):
+#				print_debug("Error restoring tube content: ", t)
+#			else:
+#				_tubes.append(tube)
+		if !set_tubes(_tubes_reset_copy):
+			print_debug("Wrong tube data in reset copy")
+		if !set_drains(_drains_reset_copy):
+			print_debug("Wrong drains data in reset copy")
 

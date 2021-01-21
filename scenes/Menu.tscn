@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
+[ext_resource path="res://assets/fonts/title.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/fonts/main.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/buttons.tres" type="Theme" id=4]
+[ext_resource path="res://assets/textedit_styleboxflat.tres" type="StyleBox" id=5]
+[ext_resource path="res://assets/window.tres" type="Theme" id=6]
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -12,7 +17,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.027451, 0.211765, 0.258824, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainHBox" type="HBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 2.2627
@@ -23,56 +36,183 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MainVBox" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 362.0
-margin_top = 246.0
-margin_right = 662.0
-margin_bottom = 353.0
-size_flags_horizontal = 4
+[node name="Container" type="Container" parent="MainHBox"]
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="MainHBox"]
+margin_left = 337.0
+margin_top = 206.0
+margin_right = 687.0
+margin_bottom = 392.0
+rect_min_size = Vector2( 350, 0 )
+size_flags_horizontal = 2
 size_flags_vertical = 4
 custom_constants/separation = 25
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MainVBox"]
-margin_right = 300.0
-margin_bottom = 57.0
+[node name="VBoxTitle" type="VBoxContainer" parent="MainHBox/MainVBox"]
+margin_right = 350.0
+margin_bottom = 71.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="RTLTitle" type="RichTextLabel" parent="MainHBox/MainVBox/VBoxTitle"]
+margin_right = 350.0
+margin_bottom = 41.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 4
+custom_fonts/normal_font = ExtResource( 2 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/line_separation = 5
 bbcode_enabled = true
-bbcode_text = "[center][color=yellow][b]TEST TUBES[/b][/color]
-a prototype of
-[b]Water Sort Puzzle[/b][/center]"
-text = "TEST TUBES
-a prototype of
-Water Sort Puzzle"
+bbcode_text = "[center][color=aqua]TEST TUBES[/color][/center]"
+text = "TEST TUBES"
 fit_content_height = true
 
-[node name="Container" type="Container" parent="CenterContainer/MainVBox"]
-margin_top = 82.0
-margin_right = 300.0
-margin_bottom = 82.0
+[node name="RTLSubtitle" type="RichTextLabel" parent="MainHBox/MainVBox/VBoxTitle"]
+margin_top = 45.0
+margin_right = 350.0
+margin_bottom = 71.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 5
+size_flags_vertical = 4
+custom_fonts/normal_font = ExtResource( 3 )
+custom_colors/default_color = Color( 0.164706, 0.631373, 0.596078, 1 )
+custom_constants/line_separation = 5
+bbcode_enabled = true
+bbcode_text = "[center]A PROTOTYPE OF WATER SORT PUZZLE[/center]"
+text = "A PROTOTYPE OF WATER SORT PUZZLE"
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="LevelSelection" type="VBoxContainer" parent="CenterContainer/MainVBox"]
-margin_top = 107.0
-margin_right = 300.0
-margin_bottom = 107.0
+[node name="Container" type="Container" parent="MainHBox/MainVBox"]
+margin_top = 96.0
+margin_right = 350.0
+margin_bottom = 96.0
+
+[node name="LevelSelection" type="VBoxContainer" parent="MainHBox/MainVBox"]
+margin_top = 121.0
+margin_right = 350.0
+margin_bottom = 121.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_vertical = 3
 custom_constants/separation = 5
 
-[node name="Button" type="Button" parent="CenterContainer/MainVBox"]
-visible = false
-margin_left = 75.0
-margin_top = 132.0
-margin_right = 175.0
-margin_bottom = 172.0
+[node name="ButtonImport" type="Button" parent="MainHBox/MainVBox"]
+margin_left = 105.0
+margin_top = 146.0
+margin_right = 245.0
+margin_bottom = 186.0
 rect_min_size = Vector2( 100, 40 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "START"
-[connection signal="pressed" from="CenterContainer/MainVBox/Button" to="." method="_on_Button_pressed"]
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.933333, 0.909804, 0.835294, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+text = "Import a level"
+
+[node name="Container2" type="Container" parent="MainHBox"]
+margin_left = 691.0
+margin_right = 691.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+
+[node name="DialogImport" type="WindowDialog" parent="."]
+visible = true
+margin_right = 800.0
+margin_bottom = 420.0
+theme = ExtResource( 6 )
+popup_exclusive = true
+window_title = "CUSTOM LEVEL"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginCont" type="MarginContainer" parent="DialogImport"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxCont" type="VBoxContainer" parent="DialogImport/MarginCont"]
+margin_right = 780.0
+margin_bottom = 410.0
+custom_constants/separation = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputText" type="TextEdit" parent="DialogImport/MarginCont/VBoxCont"]
+margin_right = 780.0
+margin_bottom = 365.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/focus = ExtResource( 5 )
+custom_styles/normal = ExtResource( 5 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.933333, 0.909804, 0.835294, 1 )
+wrap_enabled = true
+caret_blink = true
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogImport/MarginCont/VBoxCont"]
+margin_top = 370.0
+margin_right = 780.0
+margin_bottom = 410.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 10
+custom_constants/margin_left = 70
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxCont" type="HBoxContainer" parent="DialogImport/MarginCont/VBoxCont/MarginContainer"]
+margin_left = 70.0
+margin_right = 770.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="CenterContainer" parent="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont"]
+margin_right = 596.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="ButtonPlay" type="Button" parent="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont/Container"]
+margin_left = 248.0
+margin_top = 5.0
+margin_right = 348.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 100, 30 )
+hint_tooltip = "Delete all text except level JSON before pressing"
+size_flags_horizontal = 4
+theme = ExtResource( 4 )
+text = " PLAY "
+
+[node name="ButtonHelp" type="Button" parent="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont"]
+margin_left = 600.0
+margin_top = 5.0
+margin_right = 700.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 100, 30 )
+hint_tooltip = "Shows help erasing your edits"
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource( 4 )
+text = "View help"
+[connection signal="pressed" from="MainHBox/MainVBox/ButtonImport" to="." method="_on_ButtonImport_pressed"]
+[connection signal="pressed" from="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont/Container/ButtonPlay" to="." method="_on_ButtonPlay_pressed"]
+[connection signal="pressed" from="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont/ButtonHelp" to="." method="_on_ButtonHelp_pressed"]
