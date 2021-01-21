@@ -2,5 +2,28 @@
 
 [ext_resource path="res://scripts/TubeScene.gd" type="Script" id=1]
 
-[node name="TubeScene" type="Node2D"]
+[node name="TubeScene" type="VBoxContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.933333, 0.909804, 0.835294, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

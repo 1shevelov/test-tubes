@@ -108,6 +108,10 @@ func get_all_tubes_content() -> Array:
 	return all_tubes_content
 	
 	
+func get_tubes_number() -> int:
+	return _tubes.size()
+
+
 func get_tube(tube_num: int) -> Tube:
 	return _tubes[tube_num]
 	

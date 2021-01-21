@@ -42,9 +42,9 @@ size_flags_vertical = 2
 
 [node name="MainVBox" type="VBoxContainer" parent="MainHBox"]
 margin_left = 337.0
-margin_top = 206.0
+margin_top = 189.0
 margin_right = 687.0
-margin_bottom = 392.0
+margin_bottom = 409.0
 rect_min_size = Vector2( 350, 0 )
 size_flags_horizontal = 2
 size_flags_vertical = 4
@@ -55,7 +55,7 @@ __meta__ = {
 
 [node name="VBoxTitle" type="VBoxContainer" parent="MainHBox/MainVBox"]
 margin_right = 350.0
-margin_bottom = 71.0
+margin_bottom = 105.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
@@ -76,7 +76,7 @@ fit_content_height = true
 [node name="RTLSubtitle" type="RichTextLabel" parent="MainHBox/MainVBox/VBoxTitle"]
 margin_top = 45.0
 margin_right = 350.0
-margin_bottom = 71.0
+margin_bottom = 105.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 4
@@ -92,23 +92,23 @@ __meta__ = {
 }
 
 [node name="Container" type="Container" parent="MainHBox/MainVBox"]
-margin_top = 96.0
+margin_top = 130.0
 margin_right = 350.0
-margin_bottom = 96.0
+margin_bottom = 130.0
 
 [node name="LevelSelection" type="VBoxContainer" parent="MainHBox/MainVBox"]
-margin_top = 121.0
+margin_top = 155.0
 margin_right = 350.0
-margin_bottom = 121.0
+margin_bottom = 155.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_vertical = 3
 custom_constants/separation = 5
 
 [node name="ButtonImport" type="Button" parent="MainHBox/MainVBox"]
 margin_left = 105.0
-margin_top = 146.0
+margin_top = 180.0
 margin_right = 245.0
-margin_bottom = 186.0
+margin_bottom = 220.0
 rect_min_size = Vector2( 100, 40 )
 size_flags_horizontal = 4
 size_flags_vertical = 4

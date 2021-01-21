@@ -17,8 +17,10 @@ var _curr_level: Level setget set_level, get_level
 
 const LEVELS_PATH := "res://levels"
 
+const VPS_MIN := Vector2(600, 500)
 
-func set_message_receiver(receiver_node: Node2D) -> void:
+
+func set_message_receiver(receiver_node) -> void:
 	# warning-ignore:return_value_discarded
 	connect("show_message", receiver_node, "message_show", [], CONNECT_DEFERRED)
 	

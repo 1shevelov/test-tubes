@@ -1,7 +1,7 @@
 extends Control
 
 const GAME_SCENE := preload("res://scenes/GameScene.tscn")
-var game_scene: Node2D
+var game_scene
 
 const LEVEL_LABEL := preload("res://scenes/LevelLabel.tscn")
 var levels: Array = [] # of Level
@@ -11,6 +11,7 @@ onready var import_text_control: TextEdit = $DialogImport/MarginCont/VBoxCont/In
 
 
 func _ready():
+	OS.set_min_window_size(Globals.VPS_MIN)
 	make_levels_list()
 	load_import_help()
 
