@@ -57,11 +57,12 @@ func _on_root_size_changed() -> void:
 	#print_debug("tubes= %s, root.x= %s, gap= %s" % [tubes_number, ROOT_SIZE.x,
 	#		ROOT_SIZE.x * TUBES_GAP * (1 - tubes_number / Globals.MAX_TUBES)])
 	var tubes_num_coeff: float = (1 - float(tubes_number) / Globals.MAX_TUBES)
-	tubes_margins.add_constant_override("margin_left", ROOT_SIZE.x \
-			* TUBES_MARGIN * tubes_num_coeff * tubes_num_coeff)
-	tubes_margins.add_constant_override("margin_right", ROOT_SIZE.x \
-			* TUBES_MARGIN * tubes_num_coeff * tubes_num_coeff)
-	tubes.add_constant_override("hseparation", ROOT_SIZE.x * TUBES_GAP * tubes_num_coeff)
+	tubes_margins.add_constant_override("margin_left", int(ROOT_SIZE.x \
+			* TUBES_MARGIN * tubes_num_coeff * tubes_num_coeff))
+	tubes_margins.add_constant_override("margin_right", int(ROOT_SIZE.x \
+			* TUBES_MARGIN * tubes_num_coeff * tubes_num_coeff))
+	tubes.add_constant_override("hseparation", int(ROOT_SIZE.x * TUBES_GAP \
+			* tubes_num_coeff))
 
 
 func show_tubes() -> void:
@@ -75,11 +76,12 @@ func show_tubes() -> void:
 		#var tube_position := Vector2(tube_center_x - TUBE_SIZE.x / 2, \
 		#		ROOT_SIZE.y * BORDER * 3)
 		var a_tube := TUBE_SCENE.instance()
-		#a_tube.set_coords(tube_position, TUBE_SIZE)
-		a_tube.init(Globals.get_level().get_tube(i).get_content())
+		tubes.add_child(a_tube)
+		a_tube.initialize(Globals.get_level().get_tube(i).get_content())
 		#add_child(tubes[i])
 		a_tube.update_tube(Globals.get_level().get_tube(i).get_content())
-		tubes.add_child(a_tube)
+		a_tube.set_pointers(Globals.get_level().get_tube(i).drains)
+		
 		
 #		var cr := ColorRect.new()
 #		cr.set_frame_color(Color.red)

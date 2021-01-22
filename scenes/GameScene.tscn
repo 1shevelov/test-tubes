@@ -71,9 +71,9 @@ size_flags_horizontal = 7
 size_flags_vertical = 5
 custom_fonts/normal_font = ExtResource( 4 )
 bbcode_enabled = true
-bbcode_text = "[center][color=aqua]TEST TUBES         [/color][/center]
+bbcode_text = "[center][color=aqua]TEST TUBES              [/color][/center]
 "
-text = "TEST TUBES         
+text = "TEST TUBES              
 "
 
 [node name="ButtonRestart" type="Button" parent="MarginMain/VBoxMain/HBoxTitle"]

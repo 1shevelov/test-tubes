@@ -2,17 +2,11 @@
 
 [ext_resource path="res://scripts/PortionScene.gd" type="Script" id=1]
 
-[node name="PortionScene" type="Node2D"]
-script = ExtResource( 1 )
-
-[node name="Container" type="Container" parent="."]
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Portion" type="ColorRect" parent="Container"]
+[node name="PortionScene" type="ColorRect"]
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

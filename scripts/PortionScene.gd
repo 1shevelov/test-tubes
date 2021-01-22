@@ -1,12 +1,9 @@
-extends Node2D
-
-const EMPTY_COLOR := Color.black
-
-onready var color_rect: ColorRect = $Container/Portion
+extends ColorRect
 
 
 func _ready():
-	color_rect.set_custom_minimum_size($Container.get_size())
+	#color_rect.set_custom_minimum_size($Container.get_size())
+	pass
 
 
 func set_coords(pos: Vector2, size: Vector2):
@@ -15,16 +12,17 @@ func set_coords(pos: Vector2, size: Vector2):
 	$Container.set_custom_minimum_size(size)
 
 
-
 func set_color(new_color: int) -> void:
-	if !is_instance_valid(color_rect):
-		color_rect = $Container/Portion
-	if new_color <= 0 || new_color > Globals.MAX_COLORS:
-		color_rect.set_frame_color(EMPTY_COLOR)
-		#color_rect.set_visible(false)
-		return
-	color_rect.set_frame_color(Globals.VALERIA_palette[new_color - 1])
-	#color_rect.set_visible(true)
+#	if !is_instance_valid(color_rect):
+#		color_rect = $Container/Portion
+	if new_color == 0:
+		set_frame_color(Globals.EMPTY_COLOR)
+	elif new_color == -1:
+		set_frame_color(Globals.NO_COLOR)
+	elif new_color > 0 && new_color <= Globals.MAX_COLORS:
+		set_frame_color(Globals.VALERIA_palette[new_color - 1])
+	else:
+		print_debug("Invalid color value: ", new_color)
 		
 
 #func _draw():
