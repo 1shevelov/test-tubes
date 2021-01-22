@@ -1,9 +1,13 @@
 extends VBoxContainer
 
+signal tube_clicked(tube_number, is_neck)
+var tube_pressed: bool = false
+
 const PORTION_SCENE := preload("res://scenes/PortionScene.tscn")
 const BORDER: float = 0.03 # in %
 
 #var tube_position : Vector2
+var tube_number: int = 0 # 1..MAX_TUBE_NUMBER
 
 var tube_content: Array = []
 var drains: int = 0 # local copy of corresponding Tube.drains
@@ -15,11 +19,17 @@ onready var up: TextureRect = $Up
 onready var down: TextureRect = $Down
 
 
-func initialize(tube: Array) -> void:
+func _ready() -> void:
+	# warning-ignore:return_value_discarded
+	connect("tube_clicked", Globals.game_scene, "_on_tube_clicked")
+
+
+func init(tube_num: int, tube: Array) -> void:
 	if check(tube):
 		#var a = tube_container.get_child(0)
 		#tube_container.remove_child(a)
 		#a.queue_free()
+		tube_number = tube_num
 		tube_content.resize(Globals.get_level_biggest_tube())
 		#var size_diff: int = Globals.MAX_TUBE_VOLUME - tube.size()
 		for i in tube_content.size():
@@ -58,6 +68,11 @@ func update_tube(tube: Array) -> void:
 			#curr_portion -= 1
 
 
+func reset_pointers() -> void:
+	tube_pressed = false
+	_on_TubeScene_mouse_exited()
+	
+
 func set_pointers(drains_val: int) -> void:
 #Tube enum DRAINS {NECK, BOTTOM, BOTH}
 	if drains_val in Tube.DRAINS.values():
@@ -71,6 +86,8 @@ func set_pointers(drains_val: int) -> void:
 
 
 func _on_TubeScene_mouse_entered():
+	if tube_pressed:
+		return
 	if drains == Tube.DRAINS.NECK:
 		up.set_modulate(Color.white)
 	elif drains == Tube.DRAINS.BOTTOM:
@@ -83,9 +100,30 @@ func _on_TubeScene_mouse_entered():
 
 
 func _on_TubeScene_mouse_exited():
+	if tube_pressed:
+		return
 	if drains == Tube.DRAINS.NECK || drains == Tube.DRAINS.BOTH:
 		up.set_modulate(Color8(255, 255, 255, 64))
 	if drains == Tube.DRAINS.BOTTOM || drains == Tube.DRAINS.BOTH:
 		down.set_modulate(Color8(255, 255, 255, 64))
 
+
+func _on_TubeScene_gui_input(event):
+	if event is InputEventMouseButton && event.is_pressed():
+		tube_pressed = true
+		if drains == Tube.DRAINS.NECK:
+			emit_signal("tube_clicked", tube_number, true)
+			up.set_modulate(Color.greenyellow)
+		elif drains == Tube.DRAINS.BOTTOM:
+			emit_signal("tube_clicked", tube_number, false)
+			down.set_modulate(Color.greenyellow)
+		elif drains == Tube.DRAINS.BOTH:
+			if event.position.y < get_size().y / 2:
+				emit_signal("tube_clicked", tube_number, true)
+				up.set_modulate(Color.greenyellow)
+			else:
+				emit_signal("tube_clicked", tube_number, false)
+				down.set_modulate(Color.greenyellow)
+		else:
+			pass
 

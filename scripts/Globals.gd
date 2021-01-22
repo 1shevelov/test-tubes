@@ -16,6 +16,7 @@ const EMPTY_COLOR := Color8(0, 0, 0, 96)
 const NO_COLOR := Color.transparent
 
 var _curr_level: Level setget set_level, get_level
+var game_scene  # game scene node
 
 const LEVELS_PATH := "res://levels"
 

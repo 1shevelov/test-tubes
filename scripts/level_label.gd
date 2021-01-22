@@ -15,7 +15,7 @@ func _ready():
 
 
 func _on_RTLabel_gui_input(event):
-	if event.is_pressed():
+	if event is InputEventMouseButton && event.is_pressed():
 		#print_debug("Clicked ", get_name())
 		emit_signal("clicked", int(get_name().right(1)))
 

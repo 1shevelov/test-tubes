@@ -5,7 +5,7 @@ var game_scene
 
 const LEVEL_LABEL := preload("res://scenes/LevelLabel.tscn")
 var levels: Array = [] # of Level
-onready var levels_list: VBoxContainer = $MainHBox/MainVBox/LevelSelection
+onready var levels_list: VBoxContainer = $MainHBox/MainVBox/ScrollContainer/LevelSelection
 
 onready var import_text_control: TextEdit = $DialogImport/MarginCont/VBoxCont/InputText
 
@@ -204,5 +204,14 @@ __________________________\n\n"""
 
 func _on_ButtonHelp_pressed():
 	load_import_help()
+
+
+func _unhandled_input(event):
+	if event is InputEventKey && event.get_scancode() == KEY_ESCAPE \
+			&& event.is_pressed():
+		if $DialogImport.is_visible():
+			$DialogImport.hide()
+		elif is_instance_valid(Globals.game_scene):
+			close_game()
 
 

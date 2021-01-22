@@ -56,5 +56,6 @@ color = Color( 0.933333, 0.909804, 0.835294, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="gui_input" from="." to="." method="_on_TubeScene_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_TubeScene_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_TubeScene_mouse_exited"]
