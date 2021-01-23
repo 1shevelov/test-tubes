@@ -1,6 +1,6 @@
-Here are the two of the game's levels in JSON as examples
+Here are the two of the game's levels in JSON as examples:
 
-LEVEL 1:
+LEVEL 1
 {
     "tubes":[
         [5],
@@ -13,7 +13,7 @@ LEVEL 1:
     ]
 }
 
-LEVEL 5:
+LEVEL 5
 {
     "tubes":[
         [0,0,1,2,5],

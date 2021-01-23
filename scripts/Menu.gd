@@ -7,6 +7,8 @@ const LEVEL_LABEL := preload("res://scenes/LevelLabel.tscn")
 var levels: Array = [] # of Level
 onready var levels_list: VBoxContainer = $MainHBox/MainVBox/ScrollContainer/LevelSelection
 
+onready var main_vbox: VBoxContainer = $MainHBox/MainVBox
+onready var title: RichTextLabel = $MainHBox/MainVBox/VBoxTitle/RTLTitle
 onready var import_text_control: TextEdit = $DialogImport/MarginCont/VBoxCont/InputText
 
 
@@ -14,6 +16,32 @@ func _ready():
 	OS.set_min_window_size(Globals.VPS_MIN)
 	make_levels_list()
 	load_import_help()
+	# warning-ignore:return_value_discarded
+	$"/root".connect("size_changed", self, "_on_root_size_changed", [], \
+			CONNECT_DEFERRED)
+	_on_root_size_changed()
+
+
+func _on_root_size_changed() -> void:
+	var ROOT_SIZE: Vector2 = $"/root".get_size()
+	
+	main_vbox.set_custom_minimum_size(Vector2(ROOT_SIZE.x * 0.75, ROOT_SIZE.y * 0.9))
+	var coeff: int = 3
+	if ROOT_SIZE.y > 1000:
+		coeff = 5
+		
+	var font: DynamicFont = title.get_font("string_name", "")
+	font.set_size(int(ROOT_SIZE.y / 18))
+	title._set_size(Vector2(title.get_size().x, font.get_size() + coeff))
+	
+	var sample_label = levels_list.get_child(0)
+	font = sample_label.get_font("string_name", "")
+	font.set_size(int(ROOT_SIZE.y / 30) - coeff)
+	#print_debug("%s - %s" % [int(ROOT_SIZE.y / 30), font.get_size()])
+	
+	$DialogImport._set_size(ROOT_SIZE * 0.8)
+	font = import_text_control.get_font("string_name", "")
+	font.set_size(int(ROOT_SIZE.x / 55) - coeff)
 
 
 func close_game() -> void:

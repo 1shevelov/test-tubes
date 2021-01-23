@@ -6,10 +6,10 @@ func _ready():
 	pass
 
 
-func set_coords(pos: Vector2, size: Vector2):
-	$Container._set_global_position(pos)
-	$Container._set_size(size)
-	$Container.set_custom_minimum_size(size)
+#func set_coords(pos: Vector2, size: Vector2):
+#	$Container._set_global_position(pos)
+#	$Container._set_size(size)
+#	$Container.set_custom_minimum_size(size)
 
 
 func set_color(new_color: int) -> void:

@@ -9,6 +9,8 @@
 [node name="GameScene" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -25,25 +27,26 @@ __meta__ = {
 [node name="MarginMain" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 20
-custom_constants/margin_top = 15
-custom_constants/margin_left = 20
-custom_constants/margin_bottom = 15
-__meta__ = {
-"_edit_use_anchors_": false
-}
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 15
+custom_constants/margin_top = 10
+custom_constants/margin_left = 15
+custom_constants/margin_bottom = 10
 
 [node name="VBoxMain" type="VBoxContainer" parent="MarginMain"]
-margin_left = 20.0
-margin_top = 15.0
-margin_right = 1004.0
-margin_bottom = 585.0
+margin_left = 15.0
+margin_top = 10.0
+margin_right = 1009.0
+margin_bottom = 590.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxTitle" type="HBoxContainer" parent="MarginMain/VBoxMain"]
-margin_right = 984.0
+margin_right = 994.0
 margin_bottom = 70.0
 rect_min_size = Vector2( 0, 70 )
 size_flags_horizontal = 3
@@ -66,7 +69,7 @@ __meta__ = {
 
 [node name="RTLTitle" type="RichTextLabel" parent="MarginMain/VBoxMain/HBoxTitle"]
 margin_left = 74.0
-margin_right = 984.0
+margin_right = 994.0
 margin_bottom = 70.0
 size_flags_horizontal = 7
 size_flags_vertical = 5
@@ -92,16 +95,16 @@ __meta__ = {
 
 [node name="CountersCont" type="CenterContainer" parent="MarginMain/VBoxMain"]
 margin_top = 74.0
-margin_right = 984.0
+margin_right = 994.0
 margin_bottom = 114.0
 rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 size_flags_vertical = 5
 
 [node name="Counters" type="Label" parent="MarginMain/VBoxMain/CountersCont"]
-margin_left = 492.0
+margin_left = 497.0
 margin_top = 8.0
-margin_right = 492.0
+margin_right = 497.0
 margin_bottom = 31.0
 hint_tooltip = "MOVES done and
 poured VOLUME in portions"
@@ -115,18 +118,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ErrorMessages" type="MarginContainer" parent="MarginMain/VBoxMain"]
+[node name="ErrorMessages" type="ScrollContainer" parent="MarginMain/VBoxMain"]
 margin_top = 118.0
-margin_right = 984.0
-margin_bottom = 188.0
-rect_min_size = Vector2( 0, 70 )
+margin_right = 994.0
+margin_bottom = 198.0
+rect_min_size = Vector2( 0, 80 )
 size_flags_horizontal = 3
 size_flags_vertical = 5
 
 [node name="Message" type="Label" parent="MarginMain/VBoxMain/ErrorMessages"]
-margin_top = 23.0
-margin_right = 984.0
-margin_bottom = 46.0
+margin_bottom = 23.0
 theme = ExtResource( 5 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/line_spacing = 1
@@ -134,38 +135,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginTubes" type="MarginContainer" parent="MarginMain/VBoxMain"]
-margin_top = 192.0
-margin_right = 984.0
-margin_bottom = 486.0
+[node name="MarginTubes" type="CenterContainer" parent="MarginMain/VBoxMain"]
+margin_top = 202.0
+margin_right = 994.0
+margin_bottom = 476.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="GridTubes" type="GridContainer" parent="MarginMain/VBoxMain/MarginTubes"]
-margin_right = 984.0
-margin_bottom = 294.0
+margin_left = 497.0
+margin_top = 137.0
+margin_right = 497.0
+margin_bottom = 137.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 20
 
-[node name="Help" type="MarginContainer" parent="MarginMain/VBoxMain"]
-margin_top = 490.0
-margin_right = 984.0
-margin_bottom = 570.0
-rect_min_size = Vector2( 0, 80 )
+[node name="Help" type="ScrollContainer" parent="MarginMain/VBoxMain"]
+margin_top = 480.0
+margin_right = 994.0
+margin_bottom = 580.0
+rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 5
-
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginMain/VBoxMain/Help"]
-margin_right = 984.0
-margin_bottom = 80.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
-[node name="Instruction" type="Label" parent="MarginMain/VBoxMain/Help/ScrollContainer"]
-margin_right = 984.0
-margin_bottom = 80.0
+[node name="Instruction" type="Label" parent="MarginMain/VBoxMain/Help"]
+margin_right = 994.0
+margin_bottom = 100.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 5 )

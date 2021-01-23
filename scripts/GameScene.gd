@@ -5,21 +5,19 @@ var menu
 var game: Game
 
 const TUBE_SCENE := preload("res://scenes/TubeScene.tscn")
-#var tubes: Array = [] # of TUBE_SCENE
 
 var BORDER := 0.1 # in %
 
-onready var instruction: Label = $MarginMain/VBoxMain/Help/ScrollContainer/Instruction
-onready var message: Label = $MarginMain/VBoxMain/ErrorMessages/Message
 onready var counters: Label = $MarginMain/VBoxMain/CountersCont/Counters
+onready var message_cont := $MarginMain/VBoxMain/ErrorMessages
+onready var message: Label = $MarginMain/VBoxMain/ErrorMessages/Message
+onready var instruction_cont := $MarginMain/VBoxMain/Help
+onready var instruction: Label = $MarginMain/VBoxMain/Help/Instruction
 
-#const TUBE_SIZE := Vector2(50, 250)
-onready var tubes_margins: MarginContainer = $MarginMain/VBoxMain/MarginTubes
 onready var tubes: GridContainer = $MarginMain/VBoxMain/MarginTubes/GridTubes
 const TUBES_GAP := 0.1 # in %
 const TUBES_MARGIN := 0.25
 
-const BUTTON:= preload("res://scenes/TubeButton.tscn")
 var tube_buttons: Array = []
 var bottom_buttons: Array = [] # for bottom faucets
 
@@ -40,7 +38,7 @@ func _ready():
 		menu.close_game()
 	# warning-ignore:return_value_discarded
 	$"/root".connect("size_changed", self, "_on_root_size_changed", [], \
-		CONNECT_DEFERRED)
+			CONNECT_DEFERRED)
 	Globals.game_scene = self
 		
 	game = Game.new()
@@ -55,15 +53,22 @@ and any other to pour this portion to.""")
 
 func _on_root_size_changed() -> void:
 	var ROOT_SIZE: Vector2 = $"/root".get_size()
-	#print_debug("tubes= %s, root.x= %s, gap= %s" % [tubes_number, ROOT_SIZE.x,
-	#		ROOT_SIZE.x * TUBES_GAP * (1 - tubes_number / Globals.MAX_TUBES)])
 	var tubes_num_coeff: float = (1 - float(tubes_number) / Globals.MAX_TUBES)
-	tubes_margins.add_constant_override("margin_left", int(ROOT_SIZE.x \
-			* TUBES_MARGIN * tubes_num_coeff * tubes_num_coeff))
-	tubes_margins.add_constant_override("margin_right", int(ROOT_SIZE.x \
-			* TUBES_MARGIN * tubes_num_coeff * tubes_num_coeff))
+
 	tubes.add_constant_override("hseparation", int(ROOT_SIZE.x * TUBES_GAP \
 			* tubes_num_coeff))
+	for each in tubes.get_children():
+		each.set_custom_minimum_size(Vector2(ROOT_SIZE.x * 0.15 * tubes_num_coeff,
+				ROOT_SIZE.y * 0.53))
+			
+	var font: DynamicFont = counters.get_font("string_name", "")
+	var coeff: int = 3
+	if ROOT_SIZE.y > 1000:
+		coeff = 5
+	font.set_size(int(ROOT_SIZE.y / 30) - coeff)
+	
+	message_cont.set_custom_minimum_size(Vector2(0, ROOT_SIZE.y / 8.4))
+	instruction_cont.set_custom_minimum_size(Vector2(0, ROOT_SIZE.y / 8))
 
 
 func show_tubes() -> void:
@@ -88,15 +93,6 @@ func update_tubes() -> void:
 	var all_tubes: Array = tubes.get_children()
 	for i in all_tubes.size():
 		all_tubes[i].update_tube(Globals.get_level().get_tube(i).get_content())
-
-#
-#func add_button(num: int, is_bottom: bool, center_pos: Vector2) -> Button:
-#	var button: Button = BUTTON.instance()
-#	button.num = num
-#	button.is_bottom = is_bottom
-#	button.set_coords(center_pos)
-#	add_child(button)
-#	return button
 
 
 func _on_tube_clicked(num: int, is_neck: bool) -> void:
