@@ -235,7 +235,7 @@ func _on_ButtonHelp_pressed():
 
 
 func _unhandled_input(event):
-	if event is InputEventKey && event.get_scancode() == KEY_ESCAPE \
+	if event is InputEventKey and event.get_scancode() == KEY_ESCAPE \
 			&& event.is_pressed():
 		if $DialogImport.is_visible():
 			$DialogImport.hide()
