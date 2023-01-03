@@ -243,3 +243,7 @@ func _unhandled_input(event):
 			close_game()
 
 
+func _on_ButtonRLG_pressed():
+	pass # Replace with function body.
+
+

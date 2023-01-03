@@ -376,6 +376,7 @@ func import_template(data) -> bool:
 			print_debug("'desc' will be truncated to %s symbols" % MAX_DESC_SIZE)
 			data.desc = data.desc.substr(0, MAX_DESC_SIZE)
 
+	print_debug("Template data: ", data)
 	# TODO: init template
 	return true
 
