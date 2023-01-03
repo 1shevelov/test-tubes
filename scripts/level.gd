@@ -358,15 +358,25 @@ func import_template(data) -> bool:
 				print_debug("'drains' has invalid value of ", each)
 				return false
 	
-	if !data.has("colors") || typeof(data.colors) != TYPE_REAL || \
-	int(data.colors) < MIN_COLORS || int(data.colors) > Globals.MAX_COLORS:
-		print_debug("'colors' template value is invalid")
-		return false
+	if !data.has("colors") || typeof(data.colors) != TYPE_REAL:
+		print_debug("Invalid 'colors' template property, setting to MIN")
+		data.colors = MIN_COLORS
+	elif int(data.colors) < MIN_COLORS:
+		print_debug("'colors' template value is less than MIN, setting to MIN")
+		data.colors = MIN_COLORS
+	elif int(data.colors) > Globals.MAX_COLORS:
+		print_debug("'colors' template value exceeds MAX, setting to MAX")
+		data.colors = Globals.MAX_COLORS
 	
-	if !data.has("portions") || typeof(data.portions) != TYPE_REAL || \
-	int(data.portions) < MIN_PORTIONS || int(data.portions) > MAX_PORTIONS:
-		print_debug("'portions' template value is invalid")
-		return false
+	if !data.has("portions") || typeof(data.portions) != TYPE_REAL:
+		print_debug("Invalid 'portions' template property, setting to MIN")
+		data.portions = MIN_PORTIONS
+	elif int(data.portions) < MIN_PORTIONS:
+		print_debug("'portions' template value is less than MIN, setting to MIN")
+		data.portions = MIN_PORTIONS
+	elif int(data.portions) > MAX_PORTIONS:
+		print_debug("'portions' template value exceeds MAX, setting to MAX")
+		data.portions = MAX_PORTIONS
 	
 	if data.has("desc"):
 		if typeof(data.desc) != TYPE_STRING:
@@ -376,7 +386,7 @@ func import_template(data) -> bool:
 			print_debug("'desc' will be truncated to %s symbols" % MAX_DESC_SIZE)
 			data.desc = data.desc.substr(0, MAX_DESC_SIZE)
 
-	print_debug("Template data: ", data)
+#	print_debug("Template data: ", data)
 	if !init_template(data):
 		return false
 	return true
@@ -385,10 +395,39 @@ func import_template(data) -> bool:
 # fill template with random colors
 # and init level like in the last part of import_level
 func init_template(data: Dictionary) -> bool:
-	# TODO fill the data.tubes with colors
+	# fill the data.tubes with colors
+	var colors: Array = []
+	for i in Globals.MAX_COLORS:
+		if i == 0:
+			continue
+		colors.append(i)
+	randomize()
+	colors.shuffle()
+	colors.resize(data.colors)
+	var portions: Array = []
+	portions.resize(data.colors)
+	portions.fill(data.portions)
+	print(colors, portions)
+	
+	var iter := colors.size() * portions.size()
+	var tube_por: int
+	var tube_num: int
+	var random_color_index: int
+	for i in iter:
+		tube_por = i % 5
+		tube_num = int((i - tube_por) / 5)
+#		print("%s / %s" % [tube_num, tube_por])
+		random_color_index = randi() % colors.size()
+		portions[random_color_index] -= 1
+		data.tubes[tube_num][tube_por] = colors[random_color_index]
+		if portions[random_color_index] == 0:
+			colors.remove(random_color_index)
+			print("Colors:", colors)
+	print(colors, portions)
+	print(data.tubes)
 	
 	if !set_tubes(data.tubes):
-		print_debug("Error while setting tubes, import aborted")
+		print_debug("Error while setting template tubes, import aborted")
 		return false
 	if data.has("drains") && !set_drains(data.drains):
 		print_debug("Error while setting drains, import aborted")

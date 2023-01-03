@@ -4,8 +4,8 @@ const GAME_SCENE := preload("res://scenes/GameScene.tscn")
 var game_scene
 
 const LEVEL_LABEL := preload("res://scenes/LevelLabel.tscn")
-var levels: Array = [] # of Level
-onready var levels_list: VBoxContainer = $MainHBox/MainVBox/ScrollContainer/LevelSelection
+var ready_levels: Array = [] # of Level
+onready var ready_levels_list: VBoxContainer = $MainHBox/MainVBox/ScrollContainer/LevelSelection
 
 onready var main_vbox: VBoxContainer = $MainHBox/MainVBox
 onready var title: RichTextLabel = $MainHBox/MainVBox/VBoxTitle/RTLTitle
@@ -14,7 +14,7 @@ onready var import_text_control: TextEdit = $DialogImport/MarginCont/VBoxCont/In
 
 func _ready():
 	OS.set_min_window_size(Globals.VPS_MIN)
-	make_levels_list()
+	make_ready_levels_list()
 	load_import_help()
 	# warning-ignore:return_value_discarded
 	$"/root".connect("size_changed", self, "_on_root_size_changed", [], \
@@ -34,7 +34,7 @@ func _on_root_size_changed() -> void:
 	font.set_size(int(ROOT_SIZE.y / 18))
 	title._set_size(Vector2(title.get_size().x, font.get_size() + coeff))
 	
-	var sample_label = levels_list.get_child(0)
+	var sample_label = ready_levels_list.get_child(0)
 	font = sample_label.get_font("string_name", "")
 	font.set_size(int(ROOT_SIZE.y / 30) - coeff)
 	#print_debug("%s - %s" % [int(ROOT_SIZE.y / 30), font.get_size()])
@@ -55,14 +55,14 @@ func restart_game() -> void:
 	run_game()
 
 
-func make_levels_list() -> void:
+func make_ready_levels_list() -> void:
 	load_levels()
-	for i in levels.size():
+	for i in ready_levels.size():
 		var l := LEVEL_LABEL.instance()
-		l.label_text = levels[i].description
+		l.label_text = ready_levels[i].description
 		l.menu = self
 		l.set_name("LevelLabel_%s" % [i + 1])
-		levels_list.add_child(l)
+		ready_levels_list.add_child(l)
 
 	
 func run_game() -> void:
@@ -78,7 +78,7 @@ func run_game() -> void:
 
 
 func _on_label_clicked(label_num: int) -> void:
-	Globals.set_level(levels[label_num - 1])
+	Globals.set_level(ready_levels[label_num - 1])
 	run_game()
 
 
@@ -97,15 +97,15 @@ func _on_label_clicked(label_num: int) -> void:
 #			print_debug("Invalid rating")
 #		if !l.add_rating({"stars": 1, "moves": 9, "vol": 15}):
 #			print_debug("Invalid rating")
-#		levels.append(l)
+#		ready_levels.append(l)
 #	else:
 #		print_debug("Error while activating level 1")
 
 
 func load_levels() -> void:
-	if !levels.empty():
-		levels.clear()
-	var files_list: Array = get_levels_list()
+	if !ready_levels.empty():
+		ready_levels.clear()
+	var files_list: Array = get_ready_levels_list()
 	if files_list.empty():
 		print_debug("No level files found")
 		return
@@ -113,7 +113,7 @@ func load_levels() -> void:
 		var level_data: Dictionary = load_level(each_file)
 		var l := Level.new()
 		if l.import_level(level_data):
-			levels.append(l)
+			ready_levels.append(l)
 		else:
 			print_debug("Was unable to load level '%s'" % each_file)
 
@@ -148,17 +148,17 @@ func level_str2dic(level_str: String) -> Dictionary:
 	return level_data
 	
 
-func get_levels_list() -> Array:
+func get_ready_levels_list() -> Array:
 	var LEVEL_EXT: String = "json"
 	
 	var err: int
 	var dir: Directory = Directory.new()
-	if !dir.dir_exists(Globals.LEVELS_PATH):
-		print_debug("Levels directory not found!?")
+	if !dir.dir_exists(Globals.READY_LEVELS_PATH):
+		print_debug("Ready levels directory not found!?")
 		return []
-	err = dir.open(Globals.LEVELS_PATH)
+	err = dir.open(Globals.READY_LEVELS_PATH)
 	if err != OK:
-		print_debug("Error accessing levels directory: ", err)
+		print_debug("Error accessing ready levels directory: ", err)
 		return []
 	err = dir.list_dir_begin(true, false)
 	if err != OK:
@@ -168,7 +168,7 @@ func get_levels_list() -> Array:
 	var files_list: Array = []
 	while file_name != "":
 		if  file_name.get_extension() == LEVEL_EXT:
-			files_list.append(Globals.LEVELS_PATH + "/" + file_name)
+			files_list.append(Globals.READY_LEVELS_PATH + "/" + file_name)
 		file_name = dir.get_next()
 	files_list.sort()
 	return files_list
@@ -244,8 +244,13 @@ func _unhandled_input(event):
 
 
 func _on_ButtonRLG_pressed():
-	# load last level in the list - currently template_classic
-	Globals.set_level(levels[levels.size() - 1])
+	var TEMPLATE_FILE := Globals.TEMPLATES_PATH + "/classic.json"
+	var template_data: Dictionary = load_level(TEMPLATE_FILE)
+	var t := Level.new()
+	if t.import_template(template_data):
+		Globals.set_level(t)
+	else:
+		print_debug("Was unable to load template '%s'" % TEMPLATE_FILE)
 	run_game()
 
 

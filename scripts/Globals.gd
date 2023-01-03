@@ -19,6 +19,8 @@ var _curr_level: Level setget set_level, get_level
 var game_scene  # game scene node
 
 const LEVELS_PATH := "res://levels"
+const READY_LEVELS_PATH := LEVELS_PATH + "/ready"
+const TEMPLATES_PATH := LEVELS_PATH + "/templates"
 
 const VPS_MIN := Vector2(800, 600)
 
