@@ -80,9 +80,9 @@ margin_bottom = 70.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 4
-custom_fonts/normal_font = ExtResource( 3 )
 custom_colors/default_color = Color( 0.164706, 0.631373, 0.596078, 1 )
 custom_constants/line_separation = 5
+custom_fonts/normal_font = ExtResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center]A PROTOTYPE OF WATER SORT PUZZLE[/center]"
 text = "A PROTOTYPE OF WATER SORT PUZZLE"
@@ -108,11 +108,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 5
 
-[node name="ButtonImport" type="Button" parent="MainHBox/MainVBox"]
-margin_left = 230.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MainHBox/MainVBox"]
 margin_top = 500.0
-margin_right = 370.0
+margin_right = 600.0
 margin_bottom = 540.0
+alignment = 1
+
+[node name="ButtonImport" type="Button" parent="MainHBox/MainVBox/HBoxContainer"]
+margin_right = 140.0
+margin_bottom = 40.0
 rect_min_size = Vector2( 100, 40 )
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -120,6 +124,24 @@ theme = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.909804, 0.835294, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
 text = "Import a level"
+
+[node name="VSeparator" type="VSeparator" parent="MainHBox/MainVBox/HBoxContainer"]
+margin_left = 144.0
+margin_right = 386.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="ButtonRLG" type="Button" parent="MainHBox/MainVBox/HBoxContainer"]
+margin_left = 390.0
+margin_right = 600.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 100, 40 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource( 4 )
+custom_colors/font_color = Color( 0.933333, 0.909804, 0.835294, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+text = "Generate random level"
 
 [node name="Container2" type="Container" parent="MainHBox"]
 margin_left = 816.0
@@ -163,10 +185,10 @@ margin_bottom = 365.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_colors/font_color = Color( 0.933333, 0.909804, 0.835294, 1 )
+custom_fonts/font = ExtResource( 3 )
 custom_styles/focus = ExtResource( 5 )
 custom_styles/normal = ExtResource( 5 )
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color = Color( 0.933333, 0.909804, 0.835294, 1 )
 wrap_enabled = true
 caret_blink = true
 
@@ -217,6 +239,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource( 4 )
 text = "View help"
-[connection signal="pressed" from="MainHBox/MainVBox/ButtonImport" to="." method="_on_ButtonImport_pressed"]
+
+[connection signal="pressed" from="MainHBox/MainVBox/HBoxContainer/ButtonImport" to="." method="_on_ButtonImport_pressed"]
+[connection signal="pressed" from="MainHBox/MainVBox/HBoxContainer/ButtonRLG" to="." method="_on_ButtonRLG_pressed"]
 [connection signal="pressed" from="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont/Container/ButtonPlay" to="." method="_on_ButtonPlay_pressed"]
 [connection signal="pressed" from="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont/ButtonHelp" to="." method="_on_ButtonHelp_pressed"]

@@ -310,6 +310,76 @@ func import_level(data) -> bool:
 	return true
 
 
+func import_template(data) -> bool:
+	var MAX_DESC_SIZE: int = 160
+	var MIN_COLORS: int = 3
+	var MIN_PORTIONS: int = 1
+	var MAX_PORTIONS: int = Globals.MAX_TUBE_VOLUME
+	
+	if typeof(data) != TYPE_DICTIONARY || data.empty():
+		print_debug("Wrong data type or empty")
+		return false
+
+	if !data.has("tubes") || typeof(data.tubes) != TYPE_ARRAY || data.tubes.empty():
+		print_debug("No 'tubes' property or invalid type")
+		return false
+	if data.tubes.size() > Globals.MAX_TUBES:
+		print_debug("More then %s tubes is not allowed in level, found %s tubes" \
+				% [Globals.MAX_TUBES, data.tubes.size()])
+		return false
+	for i in data.tubes.size():
+		if typeof(data.tubes[i]) != TYPE_ARRAY || data.tubes[i].empty():
+			print_debug("Tube data is of wrong type or empty")
+			return false
+		if data.tubes.size() < 1 || data.tubes[i].size() > Globals.MAX_TUBE_VOLUME:
+			print_debug("Tube #%s has invalid size of %s" % [i, data.tubes[i].size()])
+			return false
+		for each in data.tubes[i]:
+			if typeof(each) != TYPE_REAL:
+				print_debug("Tube #%s has value of invalid type: %s" \
+						% [i, typeof(each)])
+				return false
+			if int(each) < 0 || int(each) > Globals.MAX_COLORS:
+				print_debug("Tube #%s has invalid color value %s" % [i, each])
+				return false
+	
+	if data.has("drains"):
+		if typeof(data.drains) != TYPE_ARRAY:
+			print_debug("'drains' property is of invalid type")
+			return false
+		if data.drains.size() != data.tubes.size():
+			print_debug("'drains' property is of invalid type")
+			return false
+		for each in data.drains:
+			if typeof(each) != TYPE_REAL:
+				print_debug("'drains' has value of invalid type: ", typeof(each))
+				return false
+			if int(each) < 0 || int(each) > 2:
+				print_debug("'drains' has invalid value of ", each)
+				return false
+	
+	if !data.has("colors") || typeof(data.colors) != TYPE_REAL || \
+	int(data.colors) < MIN_COLORS || int(data.colors) > Globals.MAX_COLORS:
+		print_debug("'colors' template value is invalid")
+		return false
+	
+	if !data.has("portions") || typeof(data.portions) != TYPE_REAL || \
+	int(data.portions) < MIN_PORTIONS || int(data.portions) > MAX_PORTIONS:
+		print_debug("'portions' template value is invalid")
+		return false
+	
+	if data.has("desc"):
+		if typeof(data.desc) != TYPE_STRING:
+			print_debug("'desc' property is of invalid type")
+			return false
+		if data.desc.length() > MAX_DESC_SIZE:
+			print_debug("'desc' will be truncated to %s symbols" % MAX_DESC_SIZE)
+			data.desc = data.desc.substr(0, MAX_DESC_SIZE)
+
+	# TODO: init template
+	return true
+
+
 func make_reset_copy() -> void:
 	if _tubes.empty():
 		print_debug("The tubes array is empty!")
