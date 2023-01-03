@@ -244,6 +244,8 @@ func _unhandled_input(event):
 
 
 func _on_ButtonRLG_pressed():
-	pass # Replace with function body.
+	# load last level in the list - currently template_classic
+	Globals.set_level(levels[levels.size() - 1])
+	run_game()
 
 

@@ -377,7 +377,25 @@ func import_template(data) -> bool:
 			data.desc = data.desc.substr(0, MAX_DESC_SIZE)
 
 	print_debug("Template data: ", data)
-	# TODO: init template
+	if !init_template(data):
+		return false
+	return true
+
+
+# fill template with random colors
+# and init level like in the last part of import_level
+func init_template(data: Dictionary) -> bool:
+	# TODO fill the data.tubes with colors
+	
+	if !set_tubes(data.tubes):
+		print_debug("Error while setting tubes, import aborted")
+		return false
+	if data.has("drains") && !set_drains(data.drains):
+		print_debug("Error while setting drains, import aborted")
+		return false
+	if data.has("desc"):
+		description = data.desc
+	make_reset_copy()
 	return true
 
 
