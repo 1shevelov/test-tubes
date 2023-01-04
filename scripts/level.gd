@@ -407,7 +407,7 @@ func init_template(data: Dictionary) -> bool:
 	var portions: Array = []
 	portions.resize(data.colors)
 	portions.fill(data.portions)
-	print(colors, portions)
+#	print(colors, portions)
 	
 	var iter := colors.size() * portions.size()
 	var tube_por: int
@@ -422,9 +422,7 @@ func init_template(data: Dictionary) -> bool:
 		data.tubes[tube_num][tube_por] = colors[random_color_index]
 		if portions[random_color_index] == 0:
 			colors.remove(random_color_index)
-			print("Colors:", colors)
-	print(colors, portions)
-	print(data.tubes)
+			portions.remove(random_color_index)
 	
 	if !set_tubes(data.tubes):
 		print_debug("Error while setting template tubes, import aborted")
