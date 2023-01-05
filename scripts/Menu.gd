@@ -42,6 +42,8 @@ func _on_root_size_changed() -> void:
 	$DialogImport._set_size(ROOT_SIZE * 0.8)
 	font = import_text_control.get_font("string_name", "")
 	font.set_size(int(ROOT_SIZE.x / 55) - coeff)
+	
+#	$DialogRLGSettings._set_size(ROOT_SIZE * 0.6)
 
 
 func close_game() -> void:
@@ -230,6 +232,7 @@ __________________________\n\n"""
 	import_text_control.set_text(help_help + help_examples_str + help_text_str)
 	
 
+# in Import level dialog
 func _on_ButtonHelp_pressed():
 	load_import_help()
 
@@ -239,11 +242,18 @@ func _unhandled_input(event):
 			&& event.is_pressed():
 		if $DialogImport.is_visible():
 			$DialogImport.hide()
+		elif $DialogRLGSettings.is_visible():
+			$DialogRLGSettings.hide()
 		elif is_instance_valid(Globals.game_scene):
 			close_game()
 
 
 func _on_ButtonRLG_pressed():
+	$DialogRLGSettings.popup_centered()
+
+
+func _on_ButtonRandomLevelPlay_pressed():
+	$DialogRLGSettings.hide()
 	var TEMPLATE_FILE := Globals.TEMPLATES_PATH + "/classic.json"
 	var template_data: Dictionary = load_level(TEMPLATE_FILE)
 	var t := Level.new()
@@ -252,5 +262,4 @@ func _on_ButtonRLG_pressed():
 	else:
 		print_debug("Was unable to load template '%s'" % TEMPLATE_FILE)
 	run_game()
-
 

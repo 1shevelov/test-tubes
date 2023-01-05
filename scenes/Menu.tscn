@@ -127,21 +127,22 @@ text = "Import a level"
 
 [node name="VSeparator" type="VSeparator" parent="MainHBox/MainVBox/HBoxContainer"]
 margin_left = 144.0
-margin_right = 386.0
+margin_right = 436.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 
 [node name="ButtonRLG" type="Button" parent="MainHBox/MainVBox/HBoxContainer"]
-margin_left = 390.0
+margin_left = 440.0
 margin_right = 600.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 100, 40 )
+hint_tooltip = "Random classic water puzzle level"
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource( 4 )
 custom_colors/font_color = Color( 0.933333, 0.909804, 0.835294, 1 )
 custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
-text = "Generate random level"
+text = "Generate a level"
 
 [node name="Container2" type="Container" parent="MainHBox"]
 margin_left = 816.0
@@ -240,7 +241,132 @@ size_flags_vertical = 4
 theme = ExtResource( 4 )
 text = "View help"
 
+[node name="DialogRLGSettings" type="WindowDialog" parent="."]
+visible = true
+margin_right = 470.0
+margin_bottom = 344.0
+theme = ExtResource( 6 )
+popup_exclusive = true
+window_title = "SET RANDOM LEVEL"
+
+[node name="MarginCont" type="MarginContainer" parent="DialogRLGSettings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -8.0
+margin_bottom = -13.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxCont" type="VBoxContainer" parent="DialogRLGSettings/MarginCont"]
+margin_right = 452.0
+margin_bottom = 326.0
+custom_constants/separation = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer5" type="MarginContainer" parent="DialogRLGSettings/MarginCont/VBoxCont"]
+margin_right = 452.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer4" type="MarginContainer" parent="DialogRLGSettings/MarginCont/VBoxCont"]
+margin_top = 36.0
+margin_right = 452.0
+margin_bottom = 145.0
+size_flags_horizontal = 3
+
+[node name="LabelAbout" type="Label" parent="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer4"]
+margin_right = 452.0
+margin_bottom = 109.0
+size_flags_horizontal = 5
+text = "Classic water puzzle level contain several same-volume containers, two of them are empty while others randomly filled. "
+align = 1
+autowrap = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="DialogRLGSettings/MarginCont/VBoxCont"]
+margin_left = 119.0
+margin_top = 150.0
+margin_right = 332.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer2"]
+margin_right = 213.0
+margin_bottom = 50.0
+
+[node name="Label" type="Label" parent="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer2/HBoxContainer"]
+margin_top = 12.0
+margin_right = 209.0
+margin_bottom = 37.0
+text = "Set number of tubes"
+
+[node name="ItemListNumber" type="ItemList" parent="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer2/HBoxContainer"]
+margin_left = 213.0
+margin_right = 213.0
+margin_bottom = 50.0
+allow_rmb_select = true
+
+[node name="MarginContainer3" type="MarginContainer" parent="DialogRLGSettings/MarginCont/VBoxCont"]
+margin_left = 136.0
+margin_top = 205.0
+margin_right = 316.0
+margin_bottom = 255.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer3"]
+margin_right = 180.0
+margin_bottom = 50.0
+
+[node name="Label" type="Label" parent="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer3/HBoxContainer"]
+margin_top = 12.0
+margin_right = 176.0
+margin_bottom = 37.0
+text = "Set tubes volume"
+
+[node name="ItemListVolume" type="ItemList" parent="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer3/HBoxContainer"]
+margin_left = 180.0
+margin_right = 180.0
+margin_bottom = 50.0
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogRLGSettings/MarginCont/VBoxCont"]
+margin_top = 260.0
+margin_right = 452.0
+margin_bottom = 290.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 10
+custom_constants/margin_left = 70
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonPlay" type="Button" parent="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer"]
+margin_left = 206.0
+margin_right = 306.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 100, 30 )
+hint_tooltip = "Delete all text except level JSON before pressing"
+size_flags_horizontal = 4
+theme = ExtResource( 4 )
+text = " PLAY "
+
+[node name="MarginContainer6" type="MarginContainer" parent="DialogRLGSettings/MarginCont/VBoxCont"]
+margin_top = 295.0
+margin_right = 452.0
+margin_bottom = 326.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [connection signal="pressed" from="MainHBox/MainVBox/HBoxContainer/ButtonImport" to="." method="_on_ButtonImport_pressed"]
 [connection signal="pressed" from="MainHBox/MainVBox/HBoxContainer/ButtonRLG" to="." method="_on_ButtonRLG_pressed"]
 [connection signal="pressed" from="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont/Container/ButtonPlay" to="." method="_on_ButtonPlay_pressed"]
 [connection signal="pressed" from="DialogImport/MarginCont/VBoxCont/MarginContainer/HBoxCont/ButtonHelp" to="." method="_on_ButtonHelp_pressed"]
+[connection signal="pressed" from="DialogRLGSettings/MarginCont/VBoxCont/MarginContainer/ButtonPlay" to="." method="_on_ButtonRandomLevelPlay_pressed"]
