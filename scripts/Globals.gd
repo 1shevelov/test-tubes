@@ -2,7 +2,7 @@ extends Node
 
 signal show_message(msg)
 
-const MAX_COLORS := 10
+const MAX_COLORS := 9
 # the game will finish after this number of moves
 const MAX_MOVES := 50
 const MAX_TUBE_VOLUME := 8

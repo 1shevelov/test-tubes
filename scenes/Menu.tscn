@@ -286,7 +286,7 @@ size_flags_horizontal = 3
 margin_right = 452.0
 margin_bottom = 109.0
 size_flags_horizontal = 5
-text = "Classic water puzzle level contain several same-volume containers, two of them are empty while others randomly filled. "
+text = "Classic water puzzle level contains several same-volume tubes, two of them are empty while others are filled randomly."
 align = 1
 autowrap = true
 

@@ -310,130 +310,229 @@ func import_level(data) -> bool:
 	return true
 
 
-func import_template(data) -> bool:
-	var MAX_DESC_SIZE: int = 160
-	var MIN_COLORS: int = 3
-	var MIN_PORTIONS: int = 1
-	var MAX_PORTIONS: int = Globals.MAX_TUBE_VOLUME
-	
-	if typeof(data) != TYPE_DICTIONARY || data.empty():
-		print_debug("Wrong data type or empty")
-		return false
-
-	if !data.has("tubes") || typeof(data.tubes) != TYPE_ARRAY || data.tubes.empty():
-		print_debug("No 'tubes' property or invalid type")
-		return false
-	if data.tubes.size() > Globals.MAX_TUBES:
-		print_debug("More then %s tubes is not allowed in level, found %s tubes" \
-				% [Globals.MAX_TUBES, data.tubes.size()])
-		return false
-	for i in data.tubes.size():
-		if typeof(data.tubes[i]) != TYPE_ARRAY || data.tubes[i].empty():
-			print_debug("Tube data is of wrong type or empty")
-			return false
-		if data.tubes.size() < 1 || data.tubes[i].size() > Globals.MAX_TUBE_VOLUME:
-			print_debug("Tube #%s has invalid size of %s" % [i, data.tubes[i].size()])
-			return false
-		for each in data.tubes[i]:
-			if typeof(each) != TYPE_REAL:
-				print_debug("Tube #%s has value of invalid type: %s" \
-						% [i, typeof(each)])
-				return false
-			if int(each) < 0 || int(each) > Globals.MAX_COLORS:
-				print_debug("Tube #%s has invalid color value %s" % [i, each])
-				return false
-	
-	if data.has("drains"):
-		if typeof(data.drains) != TYPE_ARRAY:
-			print_debug("'drains' property is of invalid type")
-			return false
-		if data.drains.size() != data.tubes.size():
-			print_debug("'drains' property is of invalid type")
-			return false
-		for each in data.drains:
-			if typeof(each) != TYPE_REAL:
-				print_debug("'drains' has value of invalid type: ", typeof(each))
-				return false
-			if int(each) < 0 || int(each) > 2:
-				print_debug("'drains' has invalid value of ", each)
-				return false
-	
-	if !data.has("colors") || typeof(data.colors) != TYPE_REAL:
-		print_debug("Invalid 'colors' template property, setting to MIN")
-		data.colors = MIN_COLORS
-	elif int(data.colors) < MIN_COLORS:
-		print_debug("'colors' template value is less than MIN, setting to MIN")
-		data.colors = MIN_COLORS
-	elif int(data.colors) > Globals.MAX_COLORS:
-		print_debug("'colors' template value exceeds MAX, setting to MAX")
-		data.colors = Globals.MAX_COLORS
-	
-	if !data.has("portions") || typeof(data.portions) != TYPE_REAL:
-		print_debug("Invalid 'portions' template property, setting to MIN")
-		data.portions = MIN_PORTIONS
-	elif int(data.portions) < MIN_PORTIONS:
-		print_debug("'portions' template value is less than MIN, setting to MIN")
-		data.portions = MIN_PORTIONS
-	elif int(data.portions) > MAX_PORTIONS:
-		print_debug("'portions' template value exceeds MAX, setting to MAX")
-		data.portions = MAX_PORTIONS
-	
-	if data.has("desc"):
-		if typeof(data.desc) != TYPE_STRING:
-			print_debug("'desc' property is of invalid type")
-			return false
-		if data.desc.length() > MAX_DESC_SIZE:
-			print_debug("'desc' will be truncated to %s symbols" % MAX_DESC_SIZE)
-			data.desc = data.desc.substr(0, MAX_DESC_SIZE)
-
-#	print_debug("Template data: ", data)
-	if !init_template(data):
-		return false
-	return true
+#func import_template(data) -> bool:
+#	var MAX_DESC_SIZE: int = 160
+#	var MIN_COLORS: int = 3
+#	var MIN_PORTIONS: int = 1
+#	var MAX_PORTIONS: int = Globals.MAX_TUBE_VOLUME
+#
+#	if typeof(data) != TYPE_DICTIONARY || data.empty():
+#		print_debug("Wrong data type or empty")
+#		return false
+#
+#	if !data.has("tubes") || typeof(data.tubes) != TYPE_ARRAY || data.tubes.empty():
+#		print_debug("No 'tubes' property or invalid type")
+#		return false
+#	if data.tubes.size() > Globals.MAX_TUBES:
+#		print_debug("More then %s tubes is not allowed in level, found %s tubes" \
+#				% [Globals.MAX_TUBES, data.tubes.size()])
+#		return false
+#	for i in data.tubes.size():
+#		if typeof(data.tubes[i]) != TYPE_ARRAY || data.tubes[i].empty():
+#			print_debug("Tube data is of wrong type or empty")
+#			return false
+#		if data.tubes.size() < 1 || data.tubes[i].size() > Globals.MAX_TUBE_VOLUME:
+#			print_debug("Tube #%s has invalid size of %s" % [i, data.tubes[i].size()])
+#			return false
+#		for each in data.tubes[i]:
+#			if typeof(each) != TYPE_REAL:
+#				print_debug("Tube #%s has value of invalid type: %s" \
+#						% [i, typeof(each)])
+#				return false
+#			if int(each) < 0 || int(each) > Globals.MAX_COLORS:
+#				print_debug("Tube #%s has invalid color value %s" % [i, each])
+#				return false
+#
+#	if data.has("drains"):
+#		if typeof(data.drains) != TYPE_ARRAY:
+#			print_debug("'drains' property is of invalid type")
+#			return false
+#		if data.drains.size() != data.tubes.size():
+#			print_debug("'drains' property is of invalid type")
+#			return false
+#		for each in data.drains:
+#			if typeof(each) != TYPE_REAL:
+#				print_debug("'drains' has value of invalid type: ", typeof(each))
+#				return false
+#			if int(each) < 0 || int(each) > 2:
+#				print_debug("'drains' has invalid value of ", each)
+#				return false
+#
+#	if !data.has("colors") || typeof(data.colors) != TYPE_REAL:
+#		print_debug("Invalid 'colors' template property, setting to MIN")
+#		data.colors = MIN_COLORS
+#	elif int(data.colors) < MIN_COLORS:
+#		print_debug("'colors' template value is less than MIN, setting to MIN")
+#		data.colors = MIN_COLORS
+#	elif int(data.colors) > Globals.MAX_COLORS:
+#		print_debug("'colors' template value exceeds MAX, setting to MAX")
+#		data.colors = Globals.MAX_COLORS
+#
+#	if !data.has("portions") || typeof(data.portions) != TYPE_REAL:
+#		print_debug("Invalid 'portions' template property, setting to MIN")
+#		data.portions = MIN_PORTIONS
+#	elif int(data.portions) < MIN_PORTIONS:
+#		print_debug("'portions' template value is less than MIN, setting to MIN")
+#		data.portions = MIN_PORTIONS
+#	elif int(data.portions) > MAX_PORTIONS:
+#		print_debug("'portions' template value exceeds MAX, setting to MAX")
+#		data.portions = MAX_PORTIONS
+#
+#	if data.has("desc"):
+#		if typeof(data.desc) != TYPE_STRING:
+#			print_debug("'desc' property is of invalid type")
+#			return false
+#		if data.desc.length() > MAX_DESC_SIZE:
+#			print_debug("'desc' will be truncated to %s symbols" % MAX_DESC_SIZE)
+#			data.desc = data.desc.substr(0, MAX_DESC_SIZE)
+#
+##	print_debug("Template data: ", data)
+#	if !init_template(data):
+#		return false
+#	return true
 
 
 # fill template with random colors
 # and init level like in the last part of import_level
-func init_template(data: Dictionary) -> bool:
-	# fill the data.tubes with colors
-	var colors: Array = []
-	for i in Globals.MAX_COLORS:
+#func init_template(data: Dictionary) -> bool:
+#	# fill the data.tubes with colors
+#	var colors: Array = []
+#	for i in Globals.MAX_COLORS:
+#		if i == 0:
+#			continue
+#		colors.append(i)
+#	randomize()
+#	colors.shuffle()
+#	colors.resize(data.colors)
+#	var portions: Array = []
+#	portions.resize(data.colors)
+#	portions.fill(data.portions)
+##	print(colors, portions)
+#
+#	var iter := colors.size() * portions.size()
+#	var tube_por: int
+#	var tube_num: int
+#	var random_color_index: int
+#	for i in iter:
+#		tube_por = i % 5
+#		tube_num = int((i - tube_por) / 5)
+##		print("%s / %s" % [tube_num, tube_por])
+#		random_color_index = randi() % colors.size()
+#		portions[random_color_index] -= 1
+#		data.tubes[tube_num][tube_por] = colors[random_color_index]
+#		if portions[random_color_index] == 0:
+#			colors.remove(random_color_index)
+#			portions.remove(random_color_index)
+#
+#	if !set_tubes(data.tubes):
+#		print_debug("Error while setting template tubes, import aborted")
+#		return false
+#	if data.has("drains") && !set_drains(data.drains):
+#		print_debug("Error while setting drains, import aborted")
+#		return false
+#	if data.has("desc"):
+#		description = data.desc
+#	make_reset_copy()
+#	return true
+
+
+# generate classic water pour puzzle level:
+# all tubes are of the same volume
+# each color has the same volume randomly portioned and poured in all tubes
+# except two which are empty
+# so the number of colors is equal to number of tubes minus two
+func make_random_classic_level(colors: int, volume: int) -> bool:
+	var MIN_COLORS := 3
+	var MIN_VOLUME := 2
+	if colors < MIN_COLORS:
+		print_debug("Wrong 'colors' number, setting to MIN")
+		colors = MIN_COLORS
+	if colors > Globals.MAX_COLORS || colors > Globals.MAX_TUBES - 2:
+		print_debug("Wrong 'colors' number, setting to MAX")
+		colors = Globals.MAX_COLORS
+	if volume < MIN_VOLUME:
+		print_debug("Wrong 'volume', setting to MIN")
+		colors = MIN_VOLUME
+	if volume > Globals.MAX_TUBE_VOLUME:
+		print_debug("Wrong 'volume', setting to MAX")
+		colors = Globals.MAX_TUBE_VOLUME
+
+	# make empty tubes
+	var tube: Array
+	var tubes: Array = []
+	for i in colors + 2:
+		tube = []
+		tube.resize(volume)
+		tube.fill(0)
+		tubes.append(tube)
+
+	# make random palette
+	var palette: Array = []
+	for i in Globals.MAX_COLORS + 1:
 		if i == 0:
 			continue
-		colors.append(i)
+		palette.append(i)
 	randomize()
-	colors.shuffle()
-	colors.resize(data.colors)
+	palette.shuffle()
+	palette.resize(colors)
 	var portions: Array = []
-	portions.resize(data.colors)
-	portions.fill(data.portions)
-#	print(colors, portions)
-	
-	var iter := colors.size() * portions.size()
+	portions.resize(colors)
+	portions.fill(volume)
+#	print(palette, portions)
+
+	# fill tubes with colors from palette
+	var iterations := colors * volume
 	var tube_por: int
 	var tube_num: int
 	var random_color_index: int
-	for i in iter:
-		tube_por = i % 5
-		tube_num = int((i - tube_por) / 5)
+	for i in iterations:
+		tube_por = i % volume
+		tube_num = int((i - tube_por) / volume)
 #		print("%s / %s" % [tube_num, tube_por])
-		random_color_index = randi() % colors.size()
+		random_color_index = randi() % palette.size()
 		portions[random_color_index] -= 1
-		data.tubes[tube_num][tube_por] = colors[random_color_index]
+		tubes[tube_num][tube_por] = palette[random_color_index]
 		if portions[random_color_index] == 0:
-			colors.remove(random_color_index)
+			palette.remove(random_color_index)
 			portions.remove(random_color_index)
+#	print_debug(tubes)
 	
-	if !set_tubes(data.tubes):
-		print_debug("Error while setting template tubes, import aborted")
+	# init level
+	if !set_tubes(tubes):
+		print_debug("Error while setting random tubes, classic level generation aborted")
 		return false
-	if data.has("drains") && !set_drains(data.drains):
-		print_debug("Error while setting drains, import aborted")
-		return false
-	if data.has("desc"):
-		description = data.desc
+#	if data.has("drains") && !set_drains(data.drains):
+#		print_debug("Error while setting drains, import aborted")
+#		return false
 	make_reset_copy()
 	return true
+
+
+# generate classic water pour puzzle level
+# where every tube has only faucets
+func make_random_classic_faucet_level(colors: int, volume: int) -> bool:
+	if make_random_classic_level(colors, volume):
+		var drains: Array = []
+		drains.resize(get_tubes_number())
+		drains.fill(2)
+		# set two tubes to '1', but not last two empty tubes
+		var t1 = randi() % (drains.size() - 3)
+		drains[t1] = 1
+		var t2 = randi() % (drains.size() - 3)
+		if t2 == t1:
+			if t2 % 2 == 0 && t2 > 0:
+				t2 -= 1
+			else:
+				t2 += 1
+		drains[t2] = 1
+			
+		if set_drains(drains):
+			return true
+		else:
+			print_debug("Error while setting drains for random classic faucet level")
+			return false
+	else:
+		return false
 
 
 func make_reset_copy() -> void:

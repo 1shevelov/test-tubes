@@ -254,12 +254,13 @@ func _on_ButtonRLG_pressed():
 
 func _on_ButtonRandomLevelPlay_pressed():
 	$DialogRLGSettings.hide()
-	var TEMPLATE_FILE := Globals.TEMPLATES_PATH + "/classic.json"
-	var template_data: Dictionary = load_level(TEMPLATE_FILE)
+#	var TEMPLATE_FILE := Globals.TEMPLATES_PATH + "/classic.json"
+#	var template_data: Dictionary = load_level(TEMPLATE_FILE)
 	var t := Level.new()
-	if t.import_template(template_data):
+#	if t.import_template(template_data):
+	if t.make_random_classic_faucet_level(12, 4):
 		Globals.set_level(t)
 	else:
-		print_debug("Was unable to load template '%s'" % TEMPLATE_FILE)
+		print_debug("Was unable to make classic level with %s/%s" % [5, 3])
 	run_game()
 
